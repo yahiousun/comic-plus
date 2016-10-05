@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
-  "name": "Comicly",
-  "description": "Comic Plus",
+  "name": "Comic Plus",
+  "description": "Something like a comic reader",
   "version": "0.0.1",
   "default_locale": "zh_CN",
   "permissions": [
@@ -9,7 +9,6 @@
     "*://manhua.dmzj.com/*",
     "*://*.sinaimg.cn/*",
     "storage",
-    "downloads",
     "declarativeContent"
   ],
   "background": {
@@ -19,7 +18,7 @@
     "persistent": true
   },
   "page_action": {
-    "default_title": "Comic Plus"
+    "default_title": "Comic this"
   },
   "content_scripts": [
     {
