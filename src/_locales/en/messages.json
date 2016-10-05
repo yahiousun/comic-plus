@@ -1,0 +1,18 @@
+{
+  "appName": {
+    "message": "Comicly",
+    "description": "The name of the extension"
+  },
+  "actionPreviousChapter": {
+    "message": "Previous chapter",
+    "description": "The name of the action previous chapter"
+  },
+  "actionNextChapter": {
+    "message": "Next chapter",
+    "description": "The name of the action next chapter"
+  },
+  "actionContents": {
+    "message": "Contents",
+    "description": "The name of the action open contents"
+  }
+}

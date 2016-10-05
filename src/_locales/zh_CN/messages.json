@@ -1,0 +1,18 @@
+{
+  "appName": {
+    "message": "Comicly",
+    "description": "扩展名称"
+  },
+  "actionPreviousChapter": {
+    "message": "前一话",
+    "description": "操作前一话"
+  },
+  "actionNextChapter": {
+    "message": "后一话",
+    "description": "操作后一话"
+  },
+  "actionContents": {
+    "message": "目录",
+    "description": "操作打开目录"
+  }
+}

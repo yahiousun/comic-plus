@@ -1,0 +1,16 @@
+@import "normalize.css/normalize.css";
+@import 'variables';
+@import 'animation';
+@import 'container';
+@import 'header';
+@import 'page';
+@import 'pagelist';
+@import 'media';
+
+html {
+    font-size: 62.5%;
+}
+body {
+    color: $primaryText;
+    background-color: $primaryColor;
+}

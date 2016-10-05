@@ -1,0 +1,18 @@
+@import 'variables';
+
+.media-failed {
+    min-height: 480px;
+    background-color: $accentColor;
+}
+.placeholder {
+    min-height: 480px;
+    background-color: $accentColor;
+}
+.failed {
+    min-height: 480px;
+    background-color: $accentColor;
+}
+.media-image {
+    vertical-align: middle;
+    max-width: 100%;
+}

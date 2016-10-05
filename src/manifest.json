@@ -1,0 +1,31 @@
+{
+  "manifest_version": 2,
+  "name": "Comicly",
+  "description": "Comic Plus",
+  "version": "0.0.1",
+  "default_locale": "zh_CN",
+  "permissions": [
+    "tabs",
+    "*://manhua.dmzj.com/*",
+    "*://*.sinaimg.cn/*",
+    "storage",
+    "downloads",
+    "declarativeContent"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "page_action": {
+    "default_title": "Comic Plus"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://manhua.dmzj.com/*/*.shtml", "*://*.lofter.com/post/*"],
+      "exclude_matches": ["*://manhua.dmzj.com/*/jump.shtml*"],
+      "js": ["content.js"]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+@import 'variables';
+
+.page {
+    margin: 0;
+}
+.page-footer {
+    box-sizing: border-box;
+    height: 38px;
+    padding: 12px 0;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: $secondrayText;
+    text-align: center;
+}
