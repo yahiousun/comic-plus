@@ -1,2 +1,2 @@
 # comic-plus
-An comic reader chrome extension
+A comic reader chrome extension
