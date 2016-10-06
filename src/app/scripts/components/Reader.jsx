@@ -9,6 +9,7 @@ import classes from '../../styles/app.scss';
 import Header from './Header';
 import PageList from './PageList';
 import Footer from './Footer';
+import Overlay from './Overlay';
 
 class Reader extends Component {
     constructor(props) {
@@ -88,6 +89,10 @@ class Reader extends Component {
         this.props.selectChapter(this.props.params.id, chapterUrl)
     }
 
+    renderContents() {
+        return 12345
+    }
+
     autodetect() {
         switch(this.props.status) {
             case LOADED: {
@@ -99,6 +104,9 @@ class Reader extends Component {
                     <Header title={this.props.extraction.title} sticky={this.state.sticky} hasContents={this.props.extraction.contents ? true : false} />
                     <PageList images={this.props.extraction.images} tabId={Number(this.props.params.id)} />
                     {footer}
+                    <Overlay hidden={false}>
+                        {this.renderContents()}
+                    </Overlay>
                 </div>
             }
             case FAILED: {

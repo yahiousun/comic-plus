@@ -59,22 +59,47 @@ export default () => {
                         if (res.ok) {
                             res.text().then(
                                 (text) => {
-                                    let _doc, _target;
+                                    let _doc, _titles, _mainContents, _relatedContents;
                                     
                                     _doc = document.implementation.createHTMLDocument('');
                                     _doc.documentElement.innerHTML = text;
                                     
-                                    _target = _doc.querySelector('.cartoon_online_border');
-                                    
-                                    if (_target) {
-                                        for (let node of _target.querySelectorAll('a')) {
-                                            _contents.push({
+                                    _titles = _doc.querySelectorAll('.photo_part h2');
+                                    _mainContents = _doc.querySelector('.cartoon_online_border');
+                                    _relatedContents = _doc.querySelectorAll('.cartoon_online_border_other');
+
+                                    if (_titles.length && _mainContents) {
+                                        let _mainContentsObj = {
+                                            title: _titles[0].innerText,
+                                            contents: []
+                                        }
+                                        for (let node of _mainContents.querySelectorAll('a')) {
+                                            _mainContentsObj.contents.push({
                                                 title: node.getAttribute('title'),
                                                 chapterName: node.innerText,
                                                 chapterUrl: BASE_URL + node.getAttribute('href')
                                             })
                                         }
+                                        _contents.push(_mainContentsObj);
                                     }
+
+                                    if (_titles.length && _relatedContents.length) {
+                                        for (let i = 1; i <  _relatedContents.length; i++) {
+                                            let _relatedContentsObj = {
+                                                title: _titles[i + 1].innerText,
+                                                contents: []
+                                            }
+                                            for (let node of _relatedContents[i].querySelectorAll('a')) {
+                                                _relatedContentsObj.contents.push({
+                                                    title: node.getAttribute('title'),
+                                                    chapterName: node.innerText,
+                                                    chapterUrl: BASE_URL + node.getAttribute('href')
+                                                })
+                                            }
+                                            _contents.push(_relatedContentsObj);
+                                        }
+                                    }
+
                                     if (_contents.length) {
                                         _data.contents = _contents;
                                     }

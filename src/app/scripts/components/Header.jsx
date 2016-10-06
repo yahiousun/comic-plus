@@ -28,7 +28,7 @@ class Header extends Component {
         else {
             return <div className={classes.header}>
                         <div className={classes.container}>
-                        <Title title={this.props.title} />
+                        <h2 className={classes['comic-title']}>{this.props.title}</h2>
                     </div>
                 </div>
         }

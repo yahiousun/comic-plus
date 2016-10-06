@@ -11,9 +11,12 @@ class Contents extends Component {
     }
 
     render() {
-        let heading;
+        let heading, contents = [];
         if (this.props.title) {
             heading = <h3 className={classes['comic-title']}>{this.props.title}</h3>
+        }
+        if (this.props.contents.length) {
+            
         }
         return (
             <div>
