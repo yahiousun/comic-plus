@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 import classNames from 'classnames';
 
-import Title from './Title';
 import Button from './Button';
 import classes from '../../styles/app.scss';
 
@@ -22,7 +21,7 @@ class Header extends Component {
         else if (this.props.hasContents) {
             return <div className={classes.header}>
                         <div className={classes.container}>
-                        <Title title={this.props.title} />
+                        <h2 className={classes['comic-title']}>{this.props.title}</h2>
                     </div>
                 </div>
         }
