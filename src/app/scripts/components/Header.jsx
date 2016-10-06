@@ -3,6 +3,7 @@ import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 import classNames from 'classnames';
 
 import Title from './Title';
+import Button from './Button';
 import classes from '../../styles/app.scss';
 
 class Header extends Component {
@@ -17,6 +18,13 @@ class Header extends Component {
     autodetect() {
         if (this.props.sticky === 0) {
             return null;
+        }
+        else if (this.props.hasContents) {
+            return <div className={classes.header}>
+                        <div className={classes.container}>
+                        <Title title={this.props.title} />
+                    </div>
+                </div>
         }
         else {
             return <div className={classes.header}>
@@ -41,11 +49,13 @@ class Header extends Component {
 
 Header.propTypes = {
     title: PropTypes.string.isRequired,
-    sticky: PropTypes.number.isRequired
+    sticky: PropTypes.number.isRequired,
+    hasContents: PropTypes.bool.isRequired
 }
 
 Header.defaultProps = {
-    sticky: 0
+    sticky: 0,
+    hasContents: false
 }
 
 export default Header;

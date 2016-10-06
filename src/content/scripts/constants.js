@@ -10,3 +10,5 @@ export const EXTRACTERROR = 'extracterror';
 
 export const LOADED = 'loaded';
 export const FAILED = 'failed';
+
+export const STORAGEPREFIX = 'COMICPLUS_';

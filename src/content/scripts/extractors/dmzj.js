@@ -31,10 +31,7 @@ export default () => {
                     url: BASE_URL + window.g_chapter_url,
                     title: window.g_comic_name + ' ' + window.g_chapter_name,
                     total: window.g_max_pic_count,
-                    images: _images,
-                    previous: null,
-                    next: null,
-                    contents: null
+                    images: _images
                 }
 
                 if (_previousChapter) {

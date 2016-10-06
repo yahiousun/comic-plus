@@ -1,9 +1,8 @@
-import {EXTRACT_CHAPTER, EXTRACT_CONTENTS, SELECT_CHAPTER, REQUEST_IMAGE, LOADED, FAILED, EXTRACTSUCCESS, EXTRACTERROR} from './constants';
+import {EXTRACT_CHAPTER, STORAGEPREFIX, SELECT_CHAPTER, REQUEST_IMAGE, LOADED, FAILED, EXTRACTSUCCESS, EXTRACTERROR} from './constants';
 import {handleExtract} from './bridge';
 import {extractor} from './extractor';
 import {requestImage} from './requestImage';
 
-// bind extract listener
 window.addEventListener(EXTRACTSUCCESS, handleExtract, false);
 window.addEventListener(EXTRACTERROR, handleExtract, false);
 
@@ -12,6 +11,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     
     switch(request.type) {
         case SELECT_CHAPTER: {
+            window.sessionStorage.setItem(STORAGEPREFIX + 'isWaitingForExtractor', Date.now());
             window.location.href = request.payload;
             break;
         }
@@ -29,10 +29,16 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 })
             })
             return true;
-            break;
         }
         default: {
             extractor();
         }
     }
 });
+
+let isWaitingForExtractor = window.sessionStorage.getItem(STORAGEPREFIX + 'isWaitingForExtractor');
+
+if (isWaitingForExtractor) {
+    window.sessionStorage.removeItem(STORAGEPREFIX + 'isWaitingForExtractor');
+    extractor();
+}

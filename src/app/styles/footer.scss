@@ -1,0 +1,45 @@
+@import 'variables';
+.footer {
+    width: 100%;
+    height: 38px;
+    box-sizing: border-box;
+    background-color: $primaryColor;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+.footer .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.sticky .footer {
+    height: 37px;
+    border-top: 1px solid $dividerColor;
+}
+
+.footer-enter {
+    opacity: 0.01;
+    transform: translateY(100%);
+}
+
+.footer-enter.footer-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 250ms ease-out;
+}
+.footer-leave {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.footer-leave.footer-leave-active {
+    opacity: 0.01;
+    transform: translateY(100%);
+    transition: all 250ms ease-out;
+}
+
+.footer button {
+    margin-right: 24px;
+}

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { extract } from '../actions/extraction';
+import { extract, selectChapter } from '../actions/extraction';
 
 import { LOADING, PENDING, LOADED, FAILED } from '../constants';
 
@@ -22,7 +22,7 @@ class Reader extends Component {
     componentDidMount() {
         this.extract();
         if (this.props.status === LOADED) {
-            if (this.refs.header && document.body.scrollTop > this.refs.header.height) {
+            if (document.body.scrollTop > this.props.threshold) {
                 if (this.state.sticky !== 2) {
                     this.setState({
                         sticky: 2,
@@ -39,9 +39,6 @@ class Reader extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll.bind(this), false);
-        if (this.header) {
-            this.header = null;
-        }
     }
 
     handleScroll(e) {
@@ -78,12 +75,25 @@ class Reader extends Component {
         }
     }
 
+    onSelectChapter(chapterUrl, e) {
+        console.log(chapterUrl)
+        console.log(this);
+
+        console.log(arguments);
+        this.props.selectChapter(this.props.params.id, chapterUrl)
+    }
+
     autodetect() {
         switch(this.props.status) {
             case LOADED: {
+                let footer = null;
+                if (this.props.extraction.previous || this.props.extraction.next) {
+                    footer = <Footer previous={this.props.extraction.previous} next={this.props.extraction.next} sticky={this.state.sticky} onSelectChapter={this.onSelectChapter.bind(this)} />
+                }
                 return <div className={this.state.sticky === 1 ? '' : classes.sticky}>
-                    <Header title={this.props.extraction.title} sticky={this.state.sticky} />
+                    <Header title={this.props.extraction.title} sticky={this.state.sticky} hasContents={this.props.extraction.contents ? true : false} />
                     <PageList images={this.props.extraction.images} tabId={Number(this.props.params.id)} />
+                    {footer}
                 </div>
             }
             case FAILED: {
@@ -120,5 +130,5 @@ export default connect(
         status: state.extraction.status,
         querylist: state.querylist
     }),
-    { extract }
+    { extract, selectChapter }
 )(Reader)

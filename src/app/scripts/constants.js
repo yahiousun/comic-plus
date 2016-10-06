@@ -2,6 +2,7 @@
 export const EXTRACT = 'EXTRACT'
 
 export const REQUEST_IMAGE = 'REQUEST_IMAGE';
+export const SELECT_CHAPTER = 'SELECT_CHAPTER';
 
 export const EXTRACTSUCCESS = 'extractsuccess'
 export const EXTRACTERROR = 'extracterror'
