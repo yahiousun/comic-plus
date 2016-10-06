@@ -54,6 +54,14 @@ class Reader extends Component {
                 })
             }
         }
+        else if (document.body.scrollTop + window.innerHeight >= document.body.clientHeight) {
+            if (this.state.sticky !== 1) {
+                this.setState({
+                    sticky: 1,
+                    lastScrollTop: document.body.scrollTop
+                })
+            }
+        }
         else {
             if (diff >= 0 && this.state.sticky !== 0) {
                 this.setState({
@@ -76,10 +84,7 @@ class Reader extends Component {
     }
 
     onSelectChapter(chapterUrl, e) {
-        console.log(chapterUrl)
-        console.log(this);
-
-        console.log(arguments);
+        e.preventDefault();
         this.props.selectChapter(this.props.params.id, chapterUrl)
     }
 
