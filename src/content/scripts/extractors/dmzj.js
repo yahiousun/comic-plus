@@ -1,4 +1,3 @@
-import {EXTRACT_CHAPTER, EXTRACT_CONTENTS} from '../constants';
 import Injector from './Injector';
 export default () => {
 
@@ -7,11 +6,11 @@ export default () => {
         const EXTRACTSUCCESS = 'extractsuccess';
         const EXTRACTERROR = 'extracterror';
 
-        const BASE_URL = 'http://manhua.dmzj.com/';
+        const BASE_URL = 'http://manhua.dmzj.com';
         const IMG_PREFIX = 'http://images.dmzj.com/';
 
         let _event;
-        let _contentsUrl = BASE_URL + window.g_comic_url; 
+        let _contentsUrl = BASE_URL + '/' + window.g_comic_url; 
         let _promise = new Promise((resolve, reject) => {
 
             let _data = null,
@@ -28,7 +27,7 @@ export default () => {
                 })
 
                 _data = {
-                    url: BASE_URL + window.g_chapter_url,
+                    url: BASE_URL + '/' + window.g_chapter_url,
                     title: window.g_comic_name + ' ' + window.g_chapter_name,
                     total: window.g_max_pic_count,
                     images: _images
