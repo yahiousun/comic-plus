@@ -94,6 +94,11 @@ class Reader extends Component {
 
     onSelectChapter(chapterUrl, e) {
         e.preventDefault();
+        if (this.state.isContentsOverlayActive) {
+            this.setState({
+                isContentsOverlayActive: false
+            })
+        }
         this.props.selectChapter(this.props.params.id, chapterUrl)
     }
 
