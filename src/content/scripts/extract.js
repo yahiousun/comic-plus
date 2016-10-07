@@ -1,4 +1,4 @@
-import {EVENT_EXTRACT_SUCCESS, EVENT_EXTRACT_ERROR} from './constants'; 
+import {EXTRACTSUCCESS, EXTRACTERROR} from './constants'; 
 import extractors from './extractors';
 import extractEventCreator from './extractEventCreator';
 
@@ -7,7 +7,7 @@ const SITES = {
     lofter: /[\w]+.lofter.com\/post\/[\w]+/
 }
 
-export const extractor = () => {
+export default function() {
     let _url = window.location.href, _match;
 
     for (let key of Object.keys(SITES)) {
@@ -22,7 +22,7 @@ export const extractor = () => {
     }
     else {
         extractEventCreator({
-            type: EVENT_EXTRACT_ERROR,
+            type: EXTRACTERROR,
             payload: 'Extractor not found.'
         })
     }

@@ -1,7 +1,7 @@
 import {EXTRACT_CHAPTER, STORAGEPREFIX, SELECT_CHAPTER, REQUEST_IMAGE, LOADED, FAILED, EXTRACTSUCCESS, EXTRACTERROR} from './constants';
 import {handleExtract} from './bridge';
-import {extractor} from './extractor';
-import {requestImage} from './requestImage';
+import extract from './extract';
+import download from './download';
 
 window.addEventListener(EXTRACTSUCCESS, handleExtract, false);
 window.addEventListener(EXTRACTERROR, handleExtract, false);
@@ -16,7 +16,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             break;
         }
         case REQUEST_IMAGE: {
-            requestImage(request.payload).then((res) => {
+            download(request.payload).then((res) => {
                 sendResponse({
                     type: LOADED,
                     payload: res
@@ -31,7 +31,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true;
         }
         default: {
-            extractor();
+            extract();
         }
     }
 });
