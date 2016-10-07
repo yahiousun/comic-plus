@@ -17,7 +17,8 @@ class Reader extends Component {
         super(props);
         this.state = {
             sticky: 1,
-            lastScrollTop: 0
+            lastScrollTop: 0,
+            isContentsOverlayActive: false
         }
     }
 
@@ -41,6 +42,12 @@ class Reader extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll.bind(this), false);
+    }
+
+    toggleContentOverlay(active) {
+        this.setState({
+            isContentsOverlayActive: !!active
+        })
     }
 
     handleScroll(e) {
@@ -99,12 +106,14 @@ class Reader extends Component {
                     footer = <Footer previous={this.props.extraction.previous} next={this.props.extraction.next} sticky={this.state.sticky} onSelectChapter={this.onSelectChapter.bind(this)} />
                 }
                 if (this.props.extraction.contents) {
-                    contentsOverlay = <Overlay hidden={false}>
-                        <ContentsList contents={this.props.extraction.contents}  onSelectChapter={this.onSelectChapter.bind(this)} />
+                    contentsOverlay = <Overlay active={this.state.isContentsOverlayActive} onToggle={this.toggleContentOverlay.bind(this)}>
+                        <div className={classes.container}>
+                            <ContentsList contents={this.props.extraction.contents}  onSelectChapter={this.onSelectChapter.bind(this)} />
+                        </div>
                     </Overlay>
                 }
                 return <div className={this.state.sticky === 1 ? '' : classes.sticky}>
-                    <Header title={this.props.extraction.title} sticky={this.state.sticky} hasContents={this.props.extraction.contents ? true : false} />
+                    <Header title={this.props.extraction.title} sticky={this.state.sticky} hasContents={this.props.extraction.contents ? true : false} toggleContentOverlay={this.toggleContentOverlay.bind(this, true)} />
                     <PageList images={this.props.extraction.images} tabId={Number(this.props.params.id)} />
                     {footer}
                     {contentsOverlay}

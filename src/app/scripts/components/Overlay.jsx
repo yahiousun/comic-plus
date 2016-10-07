@@ -16,33 +16,38 @@ class Overlay extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            hidden: true
+            active: false
         }
     }
 
     componentDidMount() {
         this.setState({
-            hidden: this.props.hidden
+            active: this.props.active
         })
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.hidden !== this.state.hidden) {
-            this.setState({ hidden: nextProps.hidden })
+        if (nextProps.active !== this.state.active) {
+            this.setState({ active: nextProps.active })
         }
     }
 
     toggle() {
-        console.log(this.state)
-        this.setState({ hidden: !this.state.hidden})
+        this.setState({ active: !this.state.active})
+        setTimeout(() => {
+            if (this.props.onToggle) {
+                this.props.onToggle(this.state.active);
+            }
+        })
     }
 
     render() {
         let backgroundColor = this.props.theme === 'light' ? 'rgba(255,255,255, ' + this.props.opacity + ')' : 'rgba(0,0,0, ' + this.props.opacity + ')';
-        let display = this.state.hidden ? 'none' : 'block';
+        let display = this.state.active ? 'block' : 'none';
         let styles = { ...defaultStyles, 'backgroundColor': backgroundColor, 'display': display };
+        document.body.style.overflow = this.state.active ? 'hidden' : null;
         return (
-            <div aria-hidden={this.state.hidden} className={classes.overlay} style={styles}>
+            <div aria-hidden={!this.state.active} className={classes.overlay} style={styles}>
                 <button type="button" className={classes['button-close']} onClick={this.toggle.bind(this)}>╳</button>
                 <div>
                     {this.props.children}
@@ -53,15 +58,17 @@ class Overlay extends Component {
 }
 
 Overlay.propTypes = {
-    hidden: PropTypes.bool,
+    active: PropTypes.bool,
     theme: PropTypes.string,
-    opacity: PropTypes.number
+    opacity: PropTypes.number,
+    onToggle: PropTypes.func,
 }
 
 Overlay.defaultProps = {
-    hidden: true,
+    active: false,
     theme: 'light',
-    opacity: 0.9
+    opacity: 0.96,
+    onToggle: () => {}
 }
 
 export default Overlay;

@@ -8,22 +8,21 @@ class Contents extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.onSelectChapter)
     }
 
     render() {
         let heading, contents;
         if (this.props.title) {
-            heading = <h3 className={classes['comic-title']}>{this.props.title}</h3>
+            heading = <h3 className={classes['comic-name']}>{this.props.title}</h3>
         }
         if (this.props.contents.length) {
             contents = [];
             this.props.contents.forEach((chapter, index) => {
-                contents.push(<a key={index} href={chapter.chapterUrl} title={chapter.title} onClick={this.props.onSelectChapter.bind(this, chapter.chapterUrl)}>{chapter.chapterName}</a>)
+                contents.push(<a className={classes['chapter-link']} key={index} href={chapter.chapterUrl} title={chapter.title} onClick={this.props.onSelectChapter.bind(this, chapter.chapterUrl)}>{chapter.chapterName}</a>)
             })
         }
         return (
-            <div>
+            <div className={classes.contents}>
                 {heading}
                 {contents}
             </div>

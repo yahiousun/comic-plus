@@ -1,0 +1,29 @@
+@import 'variables';
+.contents {
+    margin: 38px 0;
+}
+
+.comic-name {
+    font-weight: normal;
+    font-size: 2.4rem;
+    line-height: 1;
+    margin: 38px 0;
+}
+
+.chapter-link {
+    color: $secondrayText;
+    text-decoration: none;
+    display: inline-block;
+    width: 100px;
+    padding: 10px 32px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.chapter-link:hover {
+    color: $primaryText;
+}
+
+.chapter-link.active {
+    color: '#86C166';
+}

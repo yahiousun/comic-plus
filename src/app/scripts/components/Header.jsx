@@ -18,20 +18,17 @@ class Header extends Component {
         if (this.props.sticky === 0) {
             return null;
         }
-        else if (this.props.hasContents) {
-            return <div className={classes.header}>
-                        <div className={classes.container}>
-                        <h2 className={classes['comic-title']}>{this.props.title}</h2>
-                    </div>
-                </div>
+        let contentsButton = null;
+        if (this.props.hasContents) {
+            contentsButton  = <Button text={chrome.i18n.getMessage('actionContents')} onClick={this.props.toggleContentOverlay} />
         }
-        else {
-            return <div className={classes.header}>
-                        <div className={classes.container}>
-                        <h2 className={classes['comic-title']}>{this.props.title}</h2>
-                    </div>
+        
+        return <div className={classes.header}>
+                    <div className={classes.container}>
+                    <h2 className={classes['comic-title']}>{this.props.title}</h2>
+                    {contentsButton}
                 </div>
-        }
+            </div>
     }
 
     render() {
@@ -49,7 +46,8 @@ class Header extends Component {
 Header.propTypes = {
     title: PropTypes.string.isRequired,
     sticky: PropTypes.number.isRequired,
-    hasContents: PropTypes.bool.isRequired
+    hasContents: PropTypes.bool.isRequired,
+    toggleContentOverlay: PropTypes.func.isRequired
 }
 
 Header.defaultProps = {

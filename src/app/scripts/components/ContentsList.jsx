@@ -13,7 +13,6 @@ class ContentsList extends Component {
     }
 
     render() {
-        console.log(this.props)
         let contentsList = null;
         if (this.props.contents.length) {
             contentsList = [];
