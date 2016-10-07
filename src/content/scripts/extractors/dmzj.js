@@ -1,4 +1,4 @@
-import Injector from './Injector';
+import inject from '../inject';
 export default () => {
 
     let textContent = '(' + function() {
@@ -146,5 +146,5 @@ export default () => {
         )
     } + ')();'
     
-    return new Injector(textContent);
+    inject(textContent);
 }
