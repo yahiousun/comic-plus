@@ -23,7 +23,7 @@
 .chapter-link:hover {
     color: $primaryText;
 }
-
-.chapter-link.active {
-    color: '#86C166';
+.chapter-link-current,
+.chapter-link-current:hover {
+    color: #86C166;
 }

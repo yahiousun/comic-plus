@@ -17,7 +17,7 @@ class ContentsList extends Component {
         if (this.props.contents.length) {
             contentsList = [];
             this.props.contents.forEach((contents, index) => {
-                contentsList.push(<Contents key={index} title={contents.title} contents={contents.contents} onSelectChapter={this.props.onSelectChapter} />)
+                contentsList.push(<Contents key={index} title={contents.title} contents={contents.contents} currentChapterUrl={this.props.currentChapterUrl} onSelectChapter={this.props.onSelectChapter} />)
             })
         }
         
@@ -31,6 +31,7 @@ class ContentsList extends Component {
 
 ContentsList.propTypes = {
     contents: PropTypes.array.isRequired,
+    currentChapterUrl: PropTypes.string.isRequired,
     onSelectChapter: PropTypes.func
 }
 

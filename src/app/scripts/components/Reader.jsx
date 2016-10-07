@@ -103,7 +103,7 @@ class Reader extends Component {
                 if (this.props.extraction.contents) {
                     contentsOverlay = <Overlay active={this.state.isContentsOverlayActive} onToggle={this.toggleContentOverlay.bind(this)}>
                         <div className={classes.container}>
-                            <ContentsList contents={this.props.extraction.contents}  onSelectChapter={this.onSelectChapter.bind(this)} />
+                            <ContentsList contents={this.props.extraction.contents} currentChapterUrl={this.props.extraction.url}  onSelectChapter={this.onSelectChapter.bind(this)} />
                         </div>
                     </Overlay>
                 }

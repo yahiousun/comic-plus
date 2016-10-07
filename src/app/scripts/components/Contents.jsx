@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
+import classNames from 'classnames';
+
 import classes from '../../styles/app.scss';
 
 class Contents extends Component {
@@ -18,7 +20,11 @@ class Contents extends Component {
         if (this.props.contents.length) {
             contents = [];
             this.props.contents.forEach((chapter, index) => {
-                contents.push(<a className={classes['chapter-link']} key={index} href={chapter.chapterUrl} title={chapter.title} onClick={this.props.onSelectChapter.bind(this, chapter.chapterUrl)}>{chapter.chapterName}</a>)
+                let currentClassName = '';
+                if (this.props.currentChapterUrl === chapter.chapterUrl) {
+                    currentClassName = classes['chapter-link-current']
+                }
+                contents.push(<a className={classNames(classes['chapter-link'], currentClassName)} key={index} href={chapter.chapterUrl} title={chapter.title} onClick={this.props.onSelectChapter.bind(this, chapter.chapterUrl)}>{chapter.chapterName}</a>)
             })
         }
         return (
@@ -33,7 +39,7 @@ class Contents extends Component {
 Contents.propTypes = {
     title: PropTypes.string,
     contents: PropTypes.array,
-    currentChaperUrl: PropTypes.string ,
+    currentChaperUrl: PropTypes.string,
     onSelectChapter: PropTypes.func
 }
 
