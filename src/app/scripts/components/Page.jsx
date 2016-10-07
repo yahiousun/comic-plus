@@ -13,7 +13,7 @@ class Page extends Component {
     render() {
         return (
             <figure className={classes.page}>
-                <Media source={this.props.source} preload={this.props.preload} tabId={this.props.tabId} />
+                <Media source={this.props.source} preload={this.props.preload} requestImage={this.props.requestImage} />
                 <PageFooter number={this.props.number} total={this.props.total} />
             </figure>
         );
@@ -25,7 +25,7 @@ Page.propTypes = {
     number: PropTypes.number.isRequired,
     total: PropTypes.number.isRequired,
     preload: PropTypes.bool.isRequired,
-    tabId: PropTypes.number.isRequired
+    requestImage: PropTypes.func.isRequired
 }
 
 Page.defaultProps = {

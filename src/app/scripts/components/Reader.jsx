@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { extract, selectChapter } from '../actions/extraction';
+import { extract, selectChapter, requestImage } from '../actions/extraction';
 
 import { LOADING, PENDING, LOADED, FAILED } from '../constants';
 
@@ -92,16 +92,6 @@ class Reader extends Component {
         }
     }
 
-    onSelectChapter(chapterUrl, e) {
-        e.preventDefault();
-        if (this.state.isContentsOverlayActive) {
-            this.setState({
-                isContentsOverlayActive: false
-            })
-        }
-        this.props.selectChapter(this.props.params.id, chapterUrl)
-    }
-
     autodetect() {
         switch(this.props.status) {
             case LOADED: {
@@ -119,7 +109,7 @@ class Reader extends Component {
                 }
                 return <div className={this.state.sticky === 1 ? '' : classes.sticky}>
                     <Header title={this.props.extraction.title} sticky={this.state.sticky} hasContents={this.props.extraction.contents ? true : false} toggleContentOverlay={this.toggleContentOverlay.bind(this, true)} />
-                    <PageList images={this.props.extraction.images} tabId={Number(this.props.params.id)} />
+                    <PageList images={this.props.extraction.images} requestImage={this.requestImage.bind(this)} />
                     {footer}
                     {contentsOverlay}
                 </div>
@@ -141,6 +131,20 @@ class Reader extends Component {
     extract() {
         this.props.extract(this.props.params.id)
     }
+
+    onSelectChapter(chapterUrl, e) {
+        e.preventDefault();
+        if (this.state.isContentsOverlayActive) {
+            this.setState({
+                isContentsOverlayActive: false
+            })
+        }
+        this.props.selectChapter(this.props.params.id, chapterUrl)
+    }
+
+    requestImage(imgSrc) {
+        return this.props.requestImage(this.props.params.id, imgSrc);
+    }
 }
 
 Reader.propTypes = {
@@ -152,11 +156,11 @@ Reader.defaultProps = {
 }
 
 export default connect(
-    state => ({
+    state  => ({
         extraction: state.extraction.result,
         error: state.extraction.error,
         status: state.extraction.status,
         querylist: state.querylist
     }),
-    { extract, selectChapter }
+    { extract, selectChapter, requestImage }
 )(Reader)

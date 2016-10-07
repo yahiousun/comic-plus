@@ -1,6 +1,5 @@
 import React, {Component, PropTypes} from 'react';
 import { connect } from 'react-redux';
-import { addQuery, removeQuery } from '../actions/querylist';
 import classnames from 'classnames';
 
 import {LOADING, PENDING, LOADED, FAILED, REQUEST_IMAGE} from '../constants';
@@ -35,31 +34,31 @@ class Media extends Component {
         this.setState({
             status: PENDING
         })
-        this.props.addQuery(this.props.source);
-        chrome.tabs.sendMessage(this.props.tabId, {type: REQUEST_IMAGE, payload: this.props.source}, (response) => {
-            this.props.removeQuery(this.props.source);
-            if (response.type === LOADED) {
-                this.setState({
-                    status: LOADED
-                })
-            }
-            else {
-                this.setState({
-                    status: FAILED
-                })
-            }
-            this.unbindEventHandler()
-        });
+        this
+            .props
+            .requestImage(this.props.source)
+            .then(
+                (response) => {
+                    this.setState({
+                        status: LOADED
+                    })
+                },
+                (response) => {
+                    this.setState({
+                        status: FAILED
+                    })
+                }
+            )
     }
 
     bindEventHandler() {
-        window.addEventListener('scroll', this.handleLazyload.bind(this), false);
-        window.addEventListener('resize', this.handleLazyload.bind(this), false);
+        window.addEventListener('scroll', this.handleLazyload.bind(this));
+        window.addEventListener('resize', this.handleLazyload.bind(this));
     }
 
     unbindEventHandler() {
-        window.removeEventListener('scroll', this.handleLazyload.bind(this), false);
-        window.removeEventListener('resize', this.handleLazyload.bind(this), false);
+        window.removeEventListener('scroll', this.handleLazyload.bind(this));
+        window.removeEventListener('resize', this.handleLazyload.bind(this));
     }
 
     handleLazyload() {
@@ -99,7 +98,7 @@ Media.propTypes = {
     source: PropTypes.string.isRequired,
     preload: PropTypes.bool,
     threshold: PropTypes.number,
-    tabId: PropTypes.number.isRequired
+    requestImage: PropTypes.func.isRequired
 }
 
 Media.defaultProps = {
@@ -107,7 +106,4 @@ Media.defaultProps = {
     threshold: 400
 }
 
-export default connect(
-    state => ({}),
-    { addQuery, removeQuery }
-)(Media);
+export default Media;

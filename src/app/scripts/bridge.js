@@ -2,7 +2,6 @@ import { EXTRACTSUCCESS, EXTRACTERROR, EXTRACTION_SUCCESS, EXTRACTION_FAILED } f
 
 export const bindMessageToStore = (store) => {
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        console.log(request)
         switch (request.type) {
             case EXTRACTSUCCESS: {
                 store.dispatch({

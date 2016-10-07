@@ -17,7 +17,7 @@ class PageList extends Component {
         if (this.props.images.length) {
             pages = [];
             this.props.images.forEach((source, index) => {
-                pages.push(<Page key={index} source={source} number={index + 1} total={this.props.images.length} preload={index < this.props.preload ? true : false} tabId={this.props.tabId} />)
+                pages.push(<Page key={index} source={source} number={index + 1} total={this.props.images.length} preload={index < this.props.preload ? true : false} requestImage={this.props.requestImage} />)
             })
         }
 
@@ -34,11 +34,11 @@ class PageList extends Component {
 PageList.propTypes = {
     images: PropTypes.array.isRequired,
     preload: PropTypes.number,
-    tabId: PropTypes.number.isRequired
+    requestImage: PropTypes.func.isRequired
 }
 
 PageList.defaultProps = {
-    preload: 5
+    preload: 3
 }
 
 export default PageList;

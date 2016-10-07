@@ -17,7 +17,6 @@ export function extract(tabId) {
 
 export function selectChapter(tabId, chapterUrl) {
     return (dispatch, getState) => {
-        console.log(getState());
         dispatch({
             type: EXTRACTION_START
         })
@@ -31,15 +30,26 @@ export function selectChapter(tabId, chapterUrl) {
     }
 }
 
-// export function requestImage(tabId, imgSrc) {
-//     return (dispatch, getState) => {
-//         console.log(getState());
-//         dispatch({
-//             type: ADD_QUERY,
-//             payload: imgSrc
-//         })
-//         chrome.tabs.sendMessage(Number(tabId), {type: REQUEST_IMAGE}, (response) => {
-//             //
-//         });
-//     }
-// }
+export function requestImage(tabId, imgSrc) {
+    return (dispatch, getState) => {
+        dispatch({
+            type: ADD_QUERY,
+            payload: imgSrc
+        })
+        return new Promise((resolve, reject) => {
+            chrome.tabs.sendMessage(Number(tabId), {type: REQUEST_IMAGE, payload: imgSrc}, (response) => {
+                dispatch({
+                    type: REMOVE_QUERY,
+                    payload: imgSrc
+                })
+                if (response.type === LOADED) {
+                    resolve(response)
+                }
+                else {
+                    reject(response)
+                }
+            });
+        })
+        
+    }
+}
