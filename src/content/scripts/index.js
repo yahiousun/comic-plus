@@ -40,5 +40,5 @@ let isWaitingForExtractor = window.sessionStorage.getItem(STORAGEPREFIX + 'isWai
 
 if (isWaitingForExtractor) {
     window.sessionStorage.removeItem(STORAGEPREFIX + 'isWaitingForExtractor');
-    extractor();
+    extract();
 }
