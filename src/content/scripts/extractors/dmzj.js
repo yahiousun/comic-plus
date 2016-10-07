@@ -64,20 +64,22 @@ export default () => {
                                     _doc.documentElement.innerHTML = text;
                                     
                                     _titles = _doc.querySelectorAll('.photo_part h2');
-                                    _mainContents = _doc.querySelector('.cartoon_online_border');
+                                    _mainContents = _doc.querySelectorAll('.cartoon_online_border');
                                     _relatedContents = _doc.querySelectorAll('.cartoon_online_border_other');
 
-                                    if (_titles.length && _mainContents) {
+                                    if (_titles.length && _mainContents.length) {
                                         let _mainContentsObj = {
                                             title: _titles[0].innerText,
                                             contents: []
                                         }
-                                        for (let node of _mainContents.querySelectorAll('a')) {
-                                            _mainContentsObj.contents.push({
-                                                title: node.getAttribute('title'),
-                                                chapterName: node.innerText,
-                                                chapterUrl: BASE_URL + node.getAttribute('href')
-                                            })
+                                        for (let i = 0; i <  _mainContents.length; i++) {
+                                            for (let node of _mainContents[i].querySelectorAll('a')) {
+                                                _mainContentsObj.contents.push({
+                                                    title: node.getAttribute('title'),
+                                                    chapterName: node.innerText,
+                                                    chapterUrl: BASE_URL + node.getAttribute('href')
+                                                })
+                                            }
                                         }
                                         _contents.push(_mainContentsObj);
                                     }
