@@ -58,3 +58,13 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 )
+
+chrome.runtime.sendMessage(
+                        {
+                            type: 'from iframe',
+                            payload: 'test'
+                        },
+                        (response) => {
+                            console.log(response);
+                        }
+                    );

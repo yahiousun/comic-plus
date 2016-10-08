@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Comic Plus",
   "description": "Something like a comic reader",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "default_locale": "zh_CN",
   "permissions": [
     "tabs",
@@ -20,6 +20,7 @@
   "page_action": {
     "default_title": "Comic this"
   },
+  "web_accessible_resources": ["app.html"],
   "content_scripts": [
     {
       "matches": ["*://manhua.dmzj.com/*/*.shtml", "*://*.lofter.com/post/*"],

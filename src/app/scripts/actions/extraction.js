@@ -5,13 +5,16 @@ export function extract(tabId) {
         dispatch({
             type: EXTRACTION_START
         })
-        chrome.tabs.sendMessage(Number(tabId), {type: EXTRACT}, (response) => {
-            if (getState().extraction.status === LOADING) {
-                dispatch({
-                    type: EXTRACTION_PENDING
-                })
-            }
-        });
+        // chrome.tabs.sendMessage(Number(tabId), {type: EXTRACT}, (response) => {
+        //     if (getState().extraction.status === LOADING) {
+        //         dispatch({
+        //             type: EXTRACTION_PENDING
+        //         })
+        //     }
+        // });
+        if (window.self !== window.top) {
+            
+        }
     }
 }
 

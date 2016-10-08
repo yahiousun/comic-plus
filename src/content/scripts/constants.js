@@ -12,3 +12,5 @@ export const LOADED = 'loaded';
 export const FAILED = 'failed';
 
 export const STORAGEPREFIX = 'COMICPLUS_';
+
+export const CONNECT = 'CONNECT';
