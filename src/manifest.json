@@ -1,15 +1,12 @@
 {
   "manifest_version": 2,
   "name": "Comic Plus",
-  "description": "Something like a comic reader",
+  "description": "Turn any page into a comic reader",
   "version": "0.0.2",
   "default_locale": "zh_CN",
   "permissions": [
     "tabs",
-    "*://manhua.dmzj.com/*",
-    "*://*.sinaimg.cn/*",
-    "storage",
-    "declarativeContent"
+    "storage"
   ],
   "background": {
     "scripts": [
@@ -17,14 +14,13 @@
     ],
     "persistent": true
   },
-  "page_action": {
+  "browser_action": {
     "default_title": "Comic this"
   },
   "web_accessible_resources": ["app.html"],
   "content_scripts": [
     {
-      "matches": ["*://manhua.dmzj.com/*/*.shtml", "*://*.lofter.com/post/*"],
-      "exclude_matches": ["*://manhua.dmzj.com/*/jump.shtml*"],
+      "matches": ["*://*/*"],
       "js": ["content.js"]
     }
   ]

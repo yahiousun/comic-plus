@@ -1,39 +1,33 @@
-import {EXTRACTSUCCESS, EXTRACTERROR} from './constants'; 
+import { TOGGLE, START, TERMINATE} from './constants';
+import InjectApp from './InjectApp';
 
-export const handleExtract = (e) => {
-    switch (e.type) {
-        case EXTRACTSUCCESS: {
-            chrome.runtime.sendMessage(
-                {
-                    type: EXTRACTSUCCESS,
-                    payload: e.detail.payload
-                },
-                (response) => {
-                    console.log(response);
-                }
-            );
+let injectApp;
+
+console.log(chrome.browserAction)
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log(request, sender)
+
+    
+    switch (request.type) {
+        case START: {
+            if (!injectApp) {
+                injectApp = new InjectApp(chrome.extension.getURL('app.html') + '#reader/' + request.payload);
+            }
+            sendResponse({
+                type: START
+            })
             break;
         }
-        case EXTRACTERROR: {
-            chrome.runtime.sendMessage(
-                {
-                    type: EXTRACTERROR,
-                    payload: e.detail.payload || 'An unknown error occurred.'
-                },(response) => {
-                    console.log(response);
-                }
-            );
+        case TERMINATE: {
+            if (injectApp) {
+                injectApp.terminate();
+                injectApp = null;
+            }
+            sendResponse({
+                type: TERMINATE
+            })
             break;
         }
-        default: {
-            chrome.runtime.sendMessage(
-                {
-                    type: EXTRACTERROR,
-                    payload: e.detail.payload || 'An unknown error occurred.'
-                },(response) => {
-                    console.log(response);
-                }
-            );
-        }
-    }
-}
+    }        
+})
