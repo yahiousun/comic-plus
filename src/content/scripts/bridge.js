@@ -3,12 +3,9 @@ import InjectApp from './InjectApp';
 
 let injectApp;
 
-console.log(chrome.browserAction)
-
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request, sender)
+    console.log('CONTENT RECIVE', request, sender)
 
-    
     switch (request.type) {
         case START: {
             if (!injectApp) {
@@ -29,5 +26,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             })
             break;
         }
-    }        
+    } 
+    sendResponse('RESPONSE FROM CONTENT');     
 })
