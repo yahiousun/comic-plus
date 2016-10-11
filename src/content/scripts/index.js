@@ -1,5 +1,8 @@
 import './bridge';
 
+import Embedded from './Embedded';
+import Injector from './Injector';
+
 chrome.runtime.sendMessage(
     {
         type: 'REQUEST_FROM_CONTENT_TO_BACKGROUND'
@@ -15,13 +18,7 @@ let reciver = function () {
     })
 }
 
-let textContent = '(' + reciver + ')()';
-
-let script = document.createElement('script');
-
-script.textContent = textContent;
-
-document.body.appendChild(script);
+let script = new Injector(reciver);
 
 window.addEventListener('message', function (e) {
     console.log('content recive', e);
