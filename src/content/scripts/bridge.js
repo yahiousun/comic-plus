@@ -27,5 +27,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             break;
         }
     } 
-    sendResponse('RESPONSE FROM CONTENT');     
+
+    sendResponse('RESPONSE FROM CONTENT'); 
+    return true;
 })
