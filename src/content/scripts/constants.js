@@ -17,6 +17,8 @@ export const ACTIVATE = 'activate';
 export const DEACTIVATE = 'deactivate';
 export const DOWNLOAD = 'download';
 
+export const EXTRACT = 'extract';
+
 export const SITES = {
     dmzj: /manhua.dmzj.com\/[\w]+\/[\d]+.shtml/,
     lofter: /[\w]+.lofter.com\/post\/[\w]+/

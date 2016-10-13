@@ -1,24 +1,13 @@
-import * as extractors from './extractors';
-import { SITES } from './constants';
+import { EXTRACT } from './constants';
 
 export default () => {
-    let url = window.location.href, match, extractor;
+    window.addEventListener(EXTRACT, (e) => {
+        
+        // forward data to iframe
+        window.postMessage({
+            type: EXTRACT,
+            payload: e.detail.data
+        }, '*');
 
-    for (let key of Object.keys(SITES)) {
-        if (SITES[key].test(url)) {
-            match = key;
-            break;
-        }
-    }
-
-    if (match) {
-        extractor = extractors[match];
-    }
-    else {
-        extractor = extractor.universal;
-    }
-
-    // let injectFunc = (() => {
-    //     var _extractor = extractor
-    // });
+    }, false)
 }
