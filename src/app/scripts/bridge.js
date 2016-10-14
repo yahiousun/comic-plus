@@ -1,39 +1,22 @@
-import { APPPROGRESS, APPLOAD, APPERROR, IMAGEPROGRESS, IMAGELOAD, IMAGEERROR } from './constants';
+import { PREPARE, EXTRACT, DOWNLOAD } from './constants';
 
 export const bindWindowMessageHandler = (dispatch) => {
     window.addEventListener('message', (e) => {
         switch(e.data.type) {
-            case APPPROGRESS: {
+            case PREPARE: {
                 dispatch({
-                    type: APPPROGRESS
+                    type: PREPARE
                 })
             }
-            case APPLOAD: {
+            case EXTRACT: {
                 dispatch({
-                    type: APPLOAD,
+                    type: EXTART,
                     payload: e.data.payload
                 })
             }
-            case APPERROR: {
+            case DOWNLOAD: {
                 dispatch({
-                    type: APPERROR,
-                    payload: e.data.payload
-                })
-            }
-            case IMAGEPROGRESS: {
-                dispatch({
-                    type: IMAGEPROGRESS
-                })
-            }
-            case IMAGELOAD: {
-                dispatch({
-                    type: IMAGELOAD,
-                    payload: e.data.payload
-                })
-            }
-            case IMAGEERROR: {
-                dispatch({
-                    type: IMAGEERROR,
+                    type: DOWNLOAD,
                     payload: e.data.payload
                 })
             }

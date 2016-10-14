@@ -1,7 +1,13 @@
-export const TOGGLE = 'TOGGLE';
-export const START = 'START';
-export const TERMINATE = 'TERMINATE';
-
 export const RUNNING = 'running';
 export const STOPPED = 'stopped';
 export const PENDING = 'pending';
+
+export const EXTRACT = 'extract';
+export const PREPARE = 'prepare';
+export const DOWNLOAD = 'download';
+
+export const ACTIVE = 'active';
+export const INACTIVE = 'inactive';
+export const BACKGROUND = 'background';
+export const ACTIVATE = 'activate';
+export const DEACTIVATE = 'deactivate';

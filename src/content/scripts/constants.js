@@ -15,9 +15,11 @@ export const BACKGROUND = 'background';
 
 export const ACTIVATE = 'activate';
 export const DEACTIVATE = 'deactivate';
-export const DOWNLOAD = 'download';
 
+// extractor event
 export const EXTRACT = 'extract';
+export const PREPARE = 'prepare';
+export const DOWNLOAD = 'download';
 
 export const SITES = {
     dmzj: /manhua.dmzj.com\/[\w]+\/[\d]+.shtml/,
