@@ -1,7 +1,12 @@
 import { HIDDEN, VISIBLE } from './constants';
 class Embedded {
-    constructor(url, styles, props) {
-        this.defaultStyles = {
+    constructor(url, props, styles) {
+
+        this.__props__ = {
+            frameBorder: 0,
+            allowTransparency: 0
+        }
+        this.__styles__ = {
             width: '100%',
             height: '100%',
             top: 0,
@@ -12,24 +17,20 @@ class Embedded {
             zIndex: 2147483647
         }
 
-        this.defaultProps = {
-            frameBorder: 0,
-            allowTransparency: 0
-        }
+        this.props = { ...this.__props__, ...props };
+        this.styles = { ...this.__styles__, ...styles };
 
-        this.styles = { ...this.defaultStyles };
-
-        this.props = { ...this.defaultStyles, props };
         this.url = url;
         this.ref = document.createElement('iframe');
-        this.ref.id = 'comic-plus';
-        console.log(this.styles)
-        // for (let style of this.styles) {
-        //     this.ref.style[style] = this.styles[style];
-        // }
-        // for (let prop of this.props) {
-        //     this.ref[prop] = this.props[prop];
-        // }
+
+        Object.keys(this.styles).map((key) => {
+            this.ref.style[key] = this.styles[key]
+        })
+
+        Object.keys(this.props).map((key) => {
+            this.ref[key] = this.props[key]
+        })
+
         this.visibility = HIDDEN;
         this.ref.src = this.url;
     }
@@ -46,4 +47,5 @@ class Embedded {
         }
     }
 }
+
 export default Embedded;

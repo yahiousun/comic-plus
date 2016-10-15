@@ -36,11 +36,13 @@ window.addEventListener('message', (e) => {
     console.log(e);
 })
 
-embeddedApp = new Embedded(chrome.extension.getURL('app.html') + '#reader/').show();
+embeddedApp = new Embedded(chrome.extension.getURL('app.html') + '#reader/', {
+    id: chrome.runtime.id    
+}).show();
 
 
 setTimeout(() => {
-let injection = new Injector(Universal);
+    let injection = new Injector(Universal, chrome.runtime.id);
 }, 2000)
 
 // let extractor = new Universal();

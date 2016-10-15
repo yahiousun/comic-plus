@@ -1,29 +1,34 @@
-function Universal() {
+function Universal(id, timeout) {
     let self = this,
         images = [];
+
+    self.__target__ = id ? document.getElementById(id).contentWindow : window;
+
+    self.__timeout__ = timeout || 10000;
+
+    self.__vender__ = 'Universal';
 
     self.__promise__ = new Promise((resolve, reject) => {
         self.resolve = resolve;
         self.reject = reject;
         setTimeout(() => {
            reject(-1);
-        }, 10000)
+        }, self.__timeout__)
     })
     self.__promise__.then(
         (ret) => {
-            window.postMessage({
+            self.__target__.postMessage({
                 type: 'extract',
                 payload: Object.assign({}, ret, { vender: self.__vender__, url: document.location.href })
             }, '*');
         },
         (err) => {
-            window.postMessage({
+            self.__target__.postMessage({
                 type: 'error',
                 payload: err
             }, '*');
         }
     );
-    self.__vender__ = 'Universal';
     
     for (let img of document.images) {
         if (img.width && img.height) {
