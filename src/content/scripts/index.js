@@ -1,6 +1,6 @@
 import Embedded from './Embedded';
 import Injector from './Injector';
-import createBridge from './createBridge';
+import { Universal } from './extractors';
 
 import { ACTIVE, INACTIVE, BACKGROUND, ACTIVATE, DEACTIVE, DOWNLOAD } from './constants';
 
@@ -31,3 +31,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
     }
 })
+
+window.addEventListener('message', (e) => {
+    console.log(e);
+})
+
+embeddedApp = new Embedded(chrome.extension.getURL('app.html') + '#reader/').show();
+
+
+setTimeout(() => {
+let injection = new Injector(Universal);
+}, 2000)
+
+// let extractor = new Universal();
+// extractor.__promise__.then(
+//     (res) => {
+//         console.log(res);
+//     },
+//     (err) => {
+//         console.log(err)
+//     }
+// )

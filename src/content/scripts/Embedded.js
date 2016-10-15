@@ -17,17 +17,19 @@ class Embedded {
             allowTransparency: 0
         }
 
-        this.styles = { ...this.defaultStyles, styles };
+        this.styles = { ...this.defaultStyles };
 
         this.props = { ...this.defaultStyles, props };
         this.url = url;
         this.ref = document.createElement('iframe');
-        for (let style of this.styles) {
-            this.ref.style[style] = this.styles[style];
-        }
-        for (let prop of this.props) {
-            this.ref[prop] = this.props[prop];
-        }
+        this.ref.id = 'comic-plus';
+        console.log(this.styles)
+        // for (let style of this.styles) {
+        //     this.ref.style[style] = this.styles[style];
+        // }
+        // for (let prop of this.props) {
+        //     this.ref[prop] = this.props[prop];
+        // }
         this.visibility = HIDDEN;
         this.ref.src = this.url;
     }
