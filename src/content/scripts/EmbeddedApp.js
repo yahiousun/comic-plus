@@ -1,19 +1,25 @@
 import Embedded from './Embedded';
+import Injector from './Injector';
 
-import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, DOWNLOAD } from './constants';
+import * as extractors from './extractors';
+import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD } from './constants';
 
 class EmbeddedApp extends Embedded {
     constructor(url, props, styles) {
         super(url, props, styles, false);
-        chrome.runtime.onMessage.addListener(this.onMessage.bind(this));
+        this.onRuntimeMessage = this.__onRuntimeMessage__.bind(this);
+        this.onWindowMessage = this.__onWindowMessage__.bind(this);
+        chrome.runtime.onMessage.addListener(this.onRuntimeMessage);
     }
     onActivate() {
+        window.addEventListener('message', this.onWindowMessage, true);
         document.body.style.overflow = 'hidden';
     }
     onDeactivate() {
+        window.removeEventListener('message', this.onWindowMessage, true);
         document.body.style.overflow = null;
     }
-    onMessage(request, sender, sendResponse) {
+    __onRuntimeMessage__(request, sender, sendResponse) {
         switch (request.type) {
             case ACTIVATE: {
                 if (this.state !== ACTIVE && this.state !== PENDING) {
@@ -35,6 +41,18 @@ class EmbeddedApp extends Embedded {
             }
             case DOWNLOAD: {
                 break;
+            }
+        }
+    }
+    __onWindowMessage__(e) {
+        if (e.data && e.data.type) {
+            switch(e.data.type) {
+                case EXTRACT: {
+                    break;
+                }
+                case DOWNLOAD: {
+                    break;
+                }
             }
         }
     }

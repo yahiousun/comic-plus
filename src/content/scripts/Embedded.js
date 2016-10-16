@@ -67,9 +67,9 @@ class Embedded {
 
             this.ref.src = this.url;
 
-            document.body.appendChild(this.ref);
-
             this.onActivate();
+
+            document.body.appendChild(this.ref);
         }
     }
 
