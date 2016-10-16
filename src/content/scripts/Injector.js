@@ -29,7 +29,7 @@ class Injector {
                     paramsTextArray.push(param.toString());
                     break;
                 }
-                case 'onject': {
+                case 'object': {
                     paramsTextArray.push(JSON.stringify(param));
                     break;
                 }
