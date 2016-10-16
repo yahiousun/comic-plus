@@ -7,9 +7,9 @@ import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD } fro
 class EmbeddedApp extends Embedded {
     constructor(url, props, styles) {
         super(url, props, styles, false);
-        this.onRuntimeMessage = this.__onRuntimeMessage__.bind(this);
+        this.onExtensionMessage = this.__onExtensionMessage__.bind(this);
         this.onWindowMessage = this.__onWindowMessage__.bind(this);
-        chrome.runtime.onMessage.addListener(this.onRuntimeMessage);
+        chrome.runtime.onMessage.addListener(this.onExtensionMessage);
     }
     onActivate() {
         window.addEventListener('message', this.onWindowMessage, true);
@@ -19,7 +19,7 @@ class EmbeddedApp extends Embedded {
         window.removeEventListener('message', this.onWindowMessage, true);
         document.body.style.overflow = null;
     }
-    __onRuntimeMessage__(request, sender, sendResponse) {
+    __onExtensionMessage__(request, sender, sendResponse) {
         switch (request.type) {
             case ACTIVATE: {
                 if (this.state !== ACTIVE && this.state !== PENDING) {
