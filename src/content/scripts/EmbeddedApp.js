@@ -37,7 +37,6 @@ class EmbeddedApp extends Embedded {
                 break;
             }
         }
-        console.log(this)
     }
 }
 
