@@ -1,7 +1,5 @@
 import Embedded from './Embedded';
-import Injector from './Injector';
-
-import * as extractors from './extractors';
+import Extractor from './Extractor';
 import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD } from './constants';
 
 class EmbeddedApp extends Embedded {
