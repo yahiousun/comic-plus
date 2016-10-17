@@ -1,9 +1,9 @@
-import { EXTRACTIONSTART, EXTRACT } from '../constants';
+import { PENDING, EXTRACT } from '../constants';
 
-export function extract(tabId) {
+export function extract() {
     return (dispatch, getState) => {
         dispatch({
-            type: EXTRACTIONSTART
+            type: PENDING
         })
         window.parent.postMessage({
             type: EXTRACT

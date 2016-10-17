@@ -1,23 +1,25 @@
 import Embedded from './Embedded';
+import Injector from './Injector';
 import Extractor from './Extractor';
-import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD } from './constants';
+import Downloader from './Downloader';
+import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD, ERROR, PREPARE } from './constants';
 
 class EmbeddedApp extends Embedded {
     constructor(url, props, styles) {
         super(url, props, styles, false);
-        this.onExtensionMessage = this.__onExtensionMessage__.bind(this);
-        this.onWindowMessage = this.__onWindowMessage__.bind(this);
-        chrome.runtime.onMessage.addListener(this.onExtensionMessage);
+        this.__onExtensionMessage__ = this.onExtensionMessage.bind(this);
+        this.__onWindowMessage__ = this.onWindowMessage.bind(this);
+        chrome.runtime.onMessage.addListener(this.__onExtensionMessage__);
     }
     onActivate() {
-        window.addEventListener('message', this.onWindowMessage, true);
+        window.addEventListener('message', this.__onWindowMessage__, true);
         document.body.style.overflow = 'hidden';
     }
     onDeactivate() {
-        window.removeEventListener('message', this.onWindowMessage, true);
+        window.removeEventListener('message', this.__onWindowMessage__, true);
         document.body.style.overflow = null;
     }
-    __onExtensionMessage__(request, sender, sendResponse) {
+    onExtensionMessage(request, sender, sendResponse) {
         switch (request.type) {
             case ACTIVATE: {
                 if (this.state !== ACTIVE && this.state !== PENDING) {
@@ -37,19 +39,16 @@ class EmbeddedApp extends Embedded {
                 this.toggle();
                 break;
             }
-            case DOWNLOAD: {
-                break;
-            }
         }
     }
-    __onWindowMessage__(e) {
-        if (e.data && e.data.type) {
+    onWindowMessage(e) {
+        if (e.data && e.data.id && e.data.id === chrome.runtime.id) {
             switch(e.data.type) {
                 case EXTRACT: {
-                    break;
+                    return new Extractor();
                 }
-                case DOWNLOAD: {
-                    break;
+                case PREPARE: {
+                    return new Downloader(e.data.payload);
                 }
             }
         }
