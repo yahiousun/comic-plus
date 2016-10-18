@@ -11,7 +11,6 @@ class Downloader {
         this.ref.addEventListener('load', this.__onLoad__, false);
         this.ref.addEventListener('errer', this.__onError__, false);
         this.state = PENDING;
-        this.target;
         this.bridge = new Bridge();
         this.ref.src = this.src;
     }

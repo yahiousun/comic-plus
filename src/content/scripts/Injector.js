@@ -25,10 +25,6 @@ class Injector {
                     paramsTextArray.push('\'' + param + '\'');
                     break;
                 }
-                case 'function': {
-                    paramsTextArray.push(param.toString());
-                    break;
-                }
                 case 'object': {
                     paramsTextArray.push(JSON.stringify(param));
                     break;

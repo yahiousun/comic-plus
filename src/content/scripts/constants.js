@@ -14,6 +14,7 @@ export const TOGGLE = 'toggle';
 
 // extractor event
 export const EXTRACT = 'extract';
+export const INITIALIZE = 'initialize';
 export const PREPARE = 'prepare';
 export const DOWNLOAD = 'download';
 

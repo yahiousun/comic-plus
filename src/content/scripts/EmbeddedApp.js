@@ -2,14 +2,19 @@ import Embedded from './Embedded';
 import Injector from './Injector';
 import Extractor from './Extractor';
 import Downloader from './Downloader';
-import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD, ERROR, PREPARE } from './constants';
+import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD, INITIALIZE, PREPARE } from './constants';
 
 class EmbeddedApp extends Embedded {
-    constructor(url, props, styles) {
-        super(url, props, styles, false);
+    constructor(url, props, styles, active) {
+        super(url, props, styles, active);
         this.__onExtensionMessage__ = this.onExtensionMessage.bind(this);
         this.__onWindowMessage__ = this.onWindowMessage.bind(this);
         chrome.runtime.onMessage.addListener(this.__onExtensionMessage__);
+
+        // get global options
+        chrome.storage.local.get('options', options => {
+            this.options = { ...options };
+        });
     }
     onActivate() {
         window.addEventListener('message', this.__onWindowMessage__, true);
@@ -45,7 +50,7 @@ class EmbeddedApp extends Embedded {
         if (e.data && e.data.id && e.data.id === chrome.runtime.id) {
             switch(e.data.type) {
                 case EXTRACT: {
-                    return new Extractor();
+                    return new Extractor(this.props.id, this.options.extractor);
                 }
                 case PREPARE: {
                     return new Downloader(e.data.payload);
