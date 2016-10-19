@@ -8,6 +8,12 @@ export const BACKGROUND = 'background';
 export const ACTIVATE = 'activate';
 export const DEACTIVATE = 'deactivate';
 
-export const EXTRACTIONSTART = 'extractionstart';
+export const ERROR = 'error';
 
 export const PENDING = 'pending';
+
+export const DOWNLOADING = 'downloading';
+export const CACHED = 'cached';
+export const CHECKING = 'checking';
+
+export const INITIALIZE = 'initialize';
