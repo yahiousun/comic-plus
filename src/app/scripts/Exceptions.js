@@ -7,7 +7,7 @@ export default {
     '11003': 'Contents error, empty',
     
     '13001': 'Image error, image not found',
-    '13001': 'Image error, request timeout',
+    '13002': 'Image error, request timeout',
 
     '20001': 'Compress error, compress failed'
 }
