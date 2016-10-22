@@ -16,17 +16,17 @@ function Universal(options) {
         self.origin = 'chrome-extension://' + self.id;
         self.ref = document.getElementById(self.id);
         self.vender = 'Universal';
-        self.state = LOADING;
+        self.status = LOADING;
         self.extract();
     }
 
     Extractor.prototype.extract = function(msg) {
         let self = this;
         let images = [];
-        if (self.state !== LOADING) {
+        if (self.status !== LOADING) {
             return;
         }
-        self.state = PROGRESS;
+        self.status = PROGRESS;
 
         for (let img of document.images) {
             if (!img.src) {
@@ -66,7 +66,7 @@ function Universal(options) {
 
     Extractor.prototype.onTimeout = function() {
         let self = this;
-        if (self.state === PROGRESS) {
+        if (self.status === PROGRESS) {
             self.post({
                 type: RESOURCE_TIMEOUT,
             })
@@ -75,7 +75,7 @@ function Universal(options) {
 
     Extractor.prototype.onLoad = function(ret) {
         let self = this;
-        if (self.state === PROGRESS) {
+        if (self.status === PROGRESS) {
             self.post({
                 type: RESOURCE_LOAD,
                 payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href })
@@ -84,7 +84,7 @@ function Universal(options) {
     }
 
     Extractor.prototype.onError = function(err) {
-        if (self.state === PROGRESS) {
+        if (self.status === PROGRESS) {
             self.post({
                 type: RESOURCE_ERROR,
                 code: err || 10001

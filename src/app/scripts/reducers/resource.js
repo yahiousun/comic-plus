@@ -2,15 +2,15 @@ import { RESOURCE_LOADSTART, RESOURCE_PROGRESS, RESOURCE_LOAD, RESOURCE_ERROR, R
 import { LOADING, PROGRESS, LOADED, FAILED, TIMEOUT } from '../constants/status';
 
 const initialState = {
-    status: PENDING,
+    status: LOADING,
     result: null,
     error: ''
 }
 export default (state = initialState, action) => {
-    let status = state.get(action.payload);
+    console.log(action)
     switch(action.type) {
         case RESOURCE_LOADSTART: {
-            return { ...state, status: PENDING, result: null, error: '' };
+            return { ...state, status: LOADING, result: null, error: '' };
         }
         case RESOURCE_PROGRESS: {
             return { ...state, status: PROGRESS, result: null };

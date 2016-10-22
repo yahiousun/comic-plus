@@ -1,5 +1,5 @@
-export LOADING = 'loading';
-export PROGRESS = 'progress';
-export FAILED = 'failed';
-export LOADED = 'loaded';
-export TIMEOUT = 'timeout';
+export const LOADING = 'loading';
+export const PROGRESS = 'progress';
+export const FAILED = 'failed';
+export const LOADED = 'loaded';
+export const TIMEOUT = 'timeout';
