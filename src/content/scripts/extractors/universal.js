@@ -1,11 +1,13 @@
 function Universal(options) {
 
     const LOADING = 'loading';
-    const PENDING = 'pending';
+    const PROGRESS = 'progress';
     const LOADED = 'loaded';
     const FAILED = 'failed';
-    const ERROR = 'error';
-    const INITIALIZE = 'initialize';
+
+    const RESOURCE_LOAD = 'RESOURCE_LOAD';
+    const RESOURCE_TIMEOUT = 'RESOURCE_TIMEOUT';
+    const RESOURCE_ERROR = 'RESOURCE_ERROR';
 
     function Extractor(id, options) {
         let self = this;
@@ -24,7 +26,7 @@ function Universal(options) {
         if (self.state !== LOADING) {
             return;
         }
-        self.state = PENDING;
+        self.state = PROGRESS;
 
         for (let img of document.images) {
             if (!img.src) {
@@ -52,8 +54,8 @@ function Universal(options) {
 
     Extractor.prototype.post = function(msg) {
         let self = this;
-        if (self.ref && self.contentWindow) {
-            self.ref.contentWindow.postMessage(Object.assign({}, msg, self.options.id), self.origin);
+        if (self.ref && self.ref.contentWindow) {
+            self.ref.contentWindow.postMessage(Object.assign({}, msg, {id: self.id}), self.origin);
         }
     }
 
@@ -64,28 +66,27 @@ function Universal(options) {
 
     Extractor.prototype.onTimeout = function() {
         let self = this;
-        if (self.state === PENDING) {
+        if (self.state === PROGRESS) {
             self.post({
-                type: ERROR,
-                code: -1
+                type: RESOURCE_TIMEOUT,
             })
         }
     }
 
     Extractor.prototype.onLoad = function(ret) {
         let self = this;
-        if (self.state === PENDING) {
+        if (self.state === PROGRESS) {
             self.post({
-                type: INITIALIZE,
+                type: RESOURCE_LOAD,
                 payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href })
             })
         }
     }
 
     Extractor.prototype.onError = function(err) {
-        if (self.state === PENDING) {
+        if (self.state === PROGRESS) {
             self.post({
-                type: ERROR,
+                type: RESOURCE_ERROR,
                 code: err || 10001
             })
         }

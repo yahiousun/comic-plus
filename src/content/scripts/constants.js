@@ -1,4 +1,4 @@
-export const PENDING = 'pending';
+export const PROGRESS = 'progress';
 export const LOADED = 'loaded';
 export const LOADING = 'loading';
 export const FAILED = 'failed';
@@ -13,11 +13,12 @@ export const DEACTIVATE = 'deactivate';
 export const TOGGLE = 'toggle';
 
 // extractor event
-export const EXTRACT = 'extract';
-export const INITIALIZE = 'initialize';
-export const PREPARE = 'prepare';
-export const DOWNLOAD = 'download';
+export const EXTRACT = 'EXTRACT';
+export const INITIALIZE = 'INITIALIZE';
+export const PREPARE = 'PREPARE';
+export const DOWNLOAD = 'DOWNLOAD';
 
-export const ERROR = 'error';
+export const IMAGE_ERROR = 'IMAGE_ERROR';
+export const IMAGE_LOAD = 'IMAGE_LOAD';
 
 export const PROTOCOL_CHROME_EXTENSION = 'chrome-extension:';

@@ -4,5 +4,5 @@ window.addEventListener('message', (e) => {
 
 window.parent.postMessage({
     id: chrome.runtime.id,
-    type: 'extract'
+    type: 'EXTRACT'
 }, '*');
