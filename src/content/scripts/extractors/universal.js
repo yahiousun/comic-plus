@@ -57,7 +57,6 @@ function Universal(options) {
     }
 
     Extractor.prototype.post = function(msg) {
-        console.log(msg)
         let self = this;
         if (self.ref && self.ref.contentWindow) {
             self.ref.contentWindow.postMessage(Object.assign({}, msg, {id: self.id}), self.origin);

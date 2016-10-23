@@ -1,1 +1,2 @@
-export Universal from './Universal'
+export universal from './universal';
+export dmzj from './dmzj';

@@ -16,6 +16,7 @@ class Header extends Component {
             },
             container: {
                 maxWidth: '1140px',
+                padding: '0 15px',
                 margin: '0 auto'
             },
             title: {

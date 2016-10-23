@@ -22,9 +22,8 @@ class Extractor {
                 break;
             }
         }
-        console.log(match)
         if (!match) {
-            this.extractor = extractors.Universal;
+            this.extractor = extractors.universal;
         }
     }
     inject() {
