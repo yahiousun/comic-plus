@@ -14,12 +14,6 @@ class Reader extends Component {
     componentDidMount() {
     }
 
-    componentWillReceiveProps(nextProps) {  
-    }
-
-    componentWillUnmount() {
-    }
-
     render() {
         return (
             <div>
@@ -36,4 +30,4 @@ Reader.propTypes = {
     loadImage: PropTypes.func.isRequired
 }
 
-export default Reader
+export default Reader;

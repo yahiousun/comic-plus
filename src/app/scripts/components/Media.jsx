@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import {LOADING, PROGRESS, LOADED, FAILED } from '../constants/status';
+import {LOADING, PROGRESS, LOADED, FAILED, TIMEOUT } from '../constants/status';
 import classes from '../../styles/media.scss';
 
 class Media extends Component {
@@ -52,6 +52,14 @@ class Media extends Component {
         }
     }
 
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.status && this.state.status !== nextProps.status) {
+            return true;
+        }
+        return false;
+    }
+
     componentWillUnmount() {
         this.unbindEventHandler();
     }
@@ -74,6 +82,12 @@ class Media extends Component {
         }
     }
 
+    reload() {
+        if(!this.state.status || this.state.status === FAILED) {
+            loadImage(this.props.source);
+        }
+    }
+
     render() {
         const styles = { ...this.defaultStyles };
         let loader = null, error = null, media = null;
@@ -82,7 +96,10 @@ class Media extends Component {
             media = <img src={this.props.source} className={classes.fadeIn} />
         }
         else if (this.state.status === FAILED) {
-            error = <div style={styles.error}>failed</div>
+            error = <div style={styles.error} onClick={this.props.reload}>failed</div>
+        }
+        else if (this.state.status === TIMEOUT) {
+            loader = <div>timeout</div>
         }
         else {
             loader = <div>loading</div>

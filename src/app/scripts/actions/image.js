@@ -3,7 +3,8 @@ import { IMAGE_LOADSTART, IMAGE_PROGRESS, IMAGE_LOAD, IMAGE_ERROR, IMAGE_TIMEOUT
 export function loadImage(url) {
     return (dispatch, getState) => {
         dispatch({
-            type: IMAGE_LOADSTART
+            type: IMAGE_LOADSTART,
+            payload: url
         });
         window.parent.postMessage({
             id: chrome.runtime.id,
