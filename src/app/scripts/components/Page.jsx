@@ -4,13 +4,25 @@ import Media from './Media';
 import PageFooter from './PageFooter';
 
 class Page extends Component {
+
+    get defaultStyles() {
+        return {
+            root: {
+                width: '100%',
+                boxSizing: 'border-box',
+                margin: '0'
+            }
+        }
+    }
+
     constructor(props) {
         super(props);
     }
 
     render() {
+        const styles = { ...this.defaultStyles  }
         return (
-            <figure>
+            <figure style={styles.root}>
                 <Media source={this.props.source} status={this.props.images.get(this.props.source)} preload={this.props.preload} loadImage={this.props.loadImage} />
                 <PageFooter number={this.props.number} total={this.props.total} />
             </figure>

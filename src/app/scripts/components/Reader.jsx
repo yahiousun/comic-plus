@@ -6,6 +6,9 @@ import Body from './Body';
 class Reader extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            sticky: false
+        }
     }
 
     componentDidMount() {

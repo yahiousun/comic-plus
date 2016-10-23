@@ -1,4 +1,14 @@
 @import 'normalize.css';
+
+html {
+    font-size: 62.5%;
+}
 body {
+    color: #434343;
     background: #FFFFFF;
+    font-size: 1.4rem;
+}
+img {
+    vertical-align: baseline;
+    max-width: 100%;
 }

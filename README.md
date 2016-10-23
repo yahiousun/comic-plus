@@ -1,5 +1,3 @@
-# comic-plus postMessage test
+# comic-plus ver 0.0.2 alpha
 
-BACKGROUND => EMBED send Ok, no response
-EMBED => BACKGROUND send Ok, response Ok
 

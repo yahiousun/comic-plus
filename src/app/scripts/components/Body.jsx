@@ -3,12 +3,30 @@ import React, { Component, PropTypes } from 'react';
 import PageList from './PageList';
 
 class Body extends Component {
+    get defaultStyles() {
+        return {
+            root: {
+                width: '100%',
+                boxSizing: 'border-box',
+                backgroundColor: '#FFFFFF'
+            },
+            container: {
+                maxWidth: '1140px',
+                margin: '0 auto'
+            }
+        }
+    }
     constructor(props) {
         super(props);
     }
     render() {
+        const styles = { ...this.defaultStyles };
         return (
-            <PageList pages={this.props.pages} images={this.props.images} loadImage={this.props.loadImage} />
+            <div style={styles.root}>
+                <div style={styles.container}>
+                    <PageList pages={this.props.pages} images={this.props.images} loadImage={this.props.loadImage} />
+                </div>
+            </div>
         );
     }
 }

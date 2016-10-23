@@ -99,8 +99,8 @@ function Universal(options) {
 
     Extractor.defaults = {
         timeout: 10000,
-        minWidth: 0,
-        minHeight: 0
+        minWidth: 640,
+        minHeight: 480
     }
 
     return new Extractor(options);

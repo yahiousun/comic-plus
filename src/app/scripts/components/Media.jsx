@@ -3,6 +3,15 @@ import React, {Component, PropTypes} from 'react';
 import {LOADING, PROGRESS, LOADED, FAILED } from '../constants/status';
 
 class Media extends Component {
+
+    get defaultStyles() {
+        return {
+            root: {
+                textAlign: 'center'
+            }
+        }
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -25,6 +34,9 @@ class Media extends Component {
             this.setState({
                 status: nextProps.status
             });
+            if (nextProps.status === LOADED) {
+                this.unbindEventHandler();
+            }
         }
     }
 
@@ -51,6 +63,7 @@ class Media extends Component {
     }
 
     render() {
+        const styles = { ...this.defaultStyles };
         let component;
         switch(this.state.status) {
             case LOADING: {
@@ -71,7 +84,7 @@ class Media extends Component {
             }
         }
         return (
-            <div ref="container">
+            <div ref="container" style={styles.root}>
                 { component }
             </div>
         );

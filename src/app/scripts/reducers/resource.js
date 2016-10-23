@@ -7,7 +7,6 @@ const initialState = {
     error: ''
 }
 export default (state = initialState, action) => {
-    console.log(action)
     switch(action.type) {
         case RESOURCE_LOADSTART: {
             return { ...state, status: LOADING, result: null, error: '' };

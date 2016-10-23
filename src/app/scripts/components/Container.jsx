@@ -35,7 +35,7 @@ class Container extends Component {
                 children = <Error />
                 break;
         }
-        console.log(this.props.status, children)
+        
         return (
             <div>
                 { children }
