@@ -1,4 +1,4 @@
-import { RESOURCE_LOADSTART, RESOURCE_LOAD, RESOURCE_ERROR, RESOURCE_TIMEOUT, EXTRACT } from '../constants/actionTypes';
+import { RESOURCE_LOADSTART, RESOURCE_PROGRESS, RESOURCE_LOAD, RESOURCE_ERROR, RESOURCE_TIMEOUT, EXTRACT } from '../constants/actionTypes';
 
 export function loadResource() {
     return (dispatch, getState) => {
@@ -9,6 +9,12 @@ export function loadResource() {
             id: chrome.runtime.id,
             type: EXTRACT
         }, '*');
+    };
+}
+
+export function loadResourceProgress() {
+    return {
+        type: RESOURCE_PROGRESS
     };
 }
 

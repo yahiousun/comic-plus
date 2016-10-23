@@ -1,10 +1,13 @@
-import { RESOURCE_LOAD, RESOURCE_ERROR, RESOURCE_TIMEOUT, IMAGE_LOAD, IMAGE_ERROR, IMAGE_TIMEOUT } from './constants/actionTypes';
-import { loadResourceComplete, loadResourceError, loadResourceTimeout } from './actions/resource';
-import { loadImageComplete, loadImageError, loadImageTimeout } from './actions/image';
+import { RESOURCE_PROGRESS, RESOURCE_LOAD, RESOURCE_ERROR, RESOURCE_TIMEOUT, IMAGE_PROGRESS, IMAGE_LOAD, IMAGE_ERROR, IMAGE_TIMEOUT } from './constants/actionTypes';
+import { loadResourceProgress, loadResourceComplete, loadResourceError, loadResourceTimeout } from './actions/resource';
+import { loadImageProgress, loadImageComplete, loadImageError, loadImageTimeout } from './actions/image';
 
 function onWindowMessageHandler (store, e) {
     if (e.data && e.data.id === chrome.runtime.id) {
         switch(e.data.type) {
+            case RESOURCE_PROGRESS: {
+                return store.dispatch(loadResourceProgress());
+            }
             case RESOURCE_LOAD: {
                 return store.dispatch(loadResourceComplete(e.data.payload));
             }
@@ -13,6 +16,9 @@ function onWindowMessageHandler (store, e) {
             }
             case RESOURCE_TIMEOUT: {
                 return store.dispatch(loadResourceTimeout());
+            }
+            case IMAGE_PROGRESS: {
+                return store.dispatch(loadImageProgress(e.data.payload));
             }
             case IMAGE_LOAD: {
                 return store.dispatch(loadImageComplete(e.data.payload));

@@ -11,9 +11,11 @@ import { Router, Route, IndexRoute, hashHistory } from 'react-router'
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 import * as reducers from './reducers'
-import { App, Reader } from './components';
+import { App, Container } from './components';
 
 import { bindWindowMessageToStore } from './messageHandler';
+
+import '../styles/style.scss';
 
 const reducer = combineReducers({
     ...reducers,
@@ -50,7 +52,7 @@ ReactDOM.render(
         <div>
             <Router history={history}>
                 <Route path="/" component={App}>
-                    <Route path="reader/:id" component={Reader}/>
+                    <Route path="reader/:id" component={Container}/>
                 </Route>
             </Router>
             <DevTools />
@@ -58,13 +60,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 )
-
-// window.addEventListener('message', (e) => {
-//     console.log('embed recive', e)
-// })
-
-// window.parent.postMessage({
-//     id: chrome.runtime.id,
-//     type: 'EXTRACT'
-// }, '*');
-

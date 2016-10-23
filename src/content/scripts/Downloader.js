@@ -1,5 +1,5 @@
 import Bridge from './Bridge';
-import { LOADED, PROGRESS, FAILED, LOADING, IMAGE_LOAD, IMAGE_ERROR } from './constants';
+import { LOADED, PROGRESS, FAILED, LOADING, IMAGE_LOAD, IMAGE_ERROR, IMAGE_PROGRESS } from './constants';
 
 class Downloader {
     constructor(src) {
@@ -12,6 +12,10 @@ class Downloader {
         this.ref.addEventListener('errer', this.__onError__, false);
         this.state = PROGRESS;
         this.bridge = new Bridge();
+        this.bridge.send({
+            type: IMAGE_PROGRESS,
+            payload: this.src
+        });
         this.ref.src = this.src;
     }
     onLoad() {

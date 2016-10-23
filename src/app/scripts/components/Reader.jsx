@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { loadResource } from '../actions/resource';
 
-import { LOADING, PROGRESS, LOADED, FAILED } from '../constants/status';
+import Header from './Header';
+import Body from './Body';
 
 class Reader extends Component {
     constructor(props) {
@@ -10,7 +9,6 @@ class Reader extends Component {
     }
 
     componentDidMount() {
-        this.props.loadResource();
     }
 
     componentWillReceiveProps(nextProps) {  
@@ -21,24 +19,18 @@ class Reader extends Component {
 
     render() {
         return (
-            <div>Hello world!<br/> status: { this.props.status }</div>
+            <div>
+                <Header title={this.props.resource.title} />
+                <Body pages={this.props.resource.pages} images={this.props.images} loadImage={this.props.loadImage} />
+            </div>
         );
     }
 }
 
 Reader.propTypes = {
-    threshold: PropTypes.number
+    resource: PropTypes.object.isRequired,
+    images: PropTypes.object.isRequired,
+    loadImage: PropTypes.func.isRequired
 }
 
-Reader.defaultProps = {
-    threshold: 100
-}
-
-export default connect(
-    state => ({
-        result: state.resource.result,
-        error: state.resource.error,
-        status: state.resource.status
-    }),
-    { loadResource }
-)(Reader)
+export default Reader

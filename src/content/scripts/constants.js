@@ -19,5 +19,6 @@ export const DOWNLOAD = 'DOWNLOAD';
 
 export const IMAGE_ERROR = 'IMAGE_ERROR';
 export const IMAGE_LOAD = 'IMAGE_LOAD';
+export const IMAGE_PROGRESS = 'IMAGE_PROGRESS';
 
 export const PROTOCOL_CHROME_EXTENSION = 'chrome-extension:';

@@ -1,4 +1,4 @@
-import { IMAGE_LOADSTART, IMAGE_LOAD, IMAGE_ERROR, IMAGE_TIMEOUT } from '../constants/actionTypes';
+import { IMAGE_LOADSTART, IMAGE_PROGRESS, IMAGE_LOAD, IMAGE_ERROR, IMAGE_TIMEOUT, PREPARE } from '../constants/actionTypes';
 
 export function loadImage(url) {
     return (dispatch, getState) => {
@@ -11,6 +11,13 @@ export function loadImage(url) {
             payload: url
         }, '*');
     }
+}
+
+export function loadImageProgress(url) {
+    return {
+        type: IMAGE_PROGRESS,
+        payload: url
+    };
 }
 
 export function loadImageComplete(url) {

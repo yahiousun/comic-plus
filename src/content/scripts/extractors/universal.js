@@ -8,6 +8,7 @@ function Universal(options) {
     const RESOURCE_LOAD = 'RESOURCE_LOAD';
     const RESOURCE_TIMEOUT = 'RESOURCE_TIMEOUT';
     const RESOURCE_ERROR = 'RESOURCE_ERROR';
+    const RESOURCE_PROGRESS = 'RESOURCE_PROGRESS';
 
     function Extractor(id, options) {
         let self = this;
@@ -17,12 +18,15 @@ function Universal(options) {
         self.ref = document.getElementById(self.id);
         self.vender = 'Universal';
         self.status = LOADING;
+        self.post({
+            type: RESOURCE_PROGRESS
+        });
         self.extract();
     }
 
     Extractor.prototype.extract = function(msg) {
         let self = this;
-        let images = [];
+        let pages = [];
         if (self.status !== LOADING) {
             return;
         }
@@ -38,13 +42,13 @@ function Universal(options) {
             if (self.options.minHeight && img.height < self.options.minHeight) {
                 continue;
             }
-            images.push(img.src);
+            pages.push(img.src);
         }
 
-        if (images.length) {
+        if (pages.length) {
             self.onLoad({
                 title: document.title,
-                images: images.slice()
+                pages: pages.slice()
             })
         }
         else {
@@ -53,6 +57,7 @@ function Universal(options) {
     }
 
     Extractor.prototype.post = function(msg) {
+        console.log(msg)
         let self = this;
         if (self.ref && self.ref.contentWindow) {
             self.ref.contentWindow.postMessage(Object.assign({}, msg, {id: self.id}), self.origin);
