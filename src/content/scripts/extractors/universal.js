@@ -89,18 +89,18 @@ function Universal(options) {
     }
 
     Extractor.prototype.onError = function(err) {
+        let self = this;
         if (self.status === PROGRESS) {
             self.post({
-                type: RESOURCE_ERROR,
-                code: err || 10001
+                type: RESOURCE_ERROR
             })
         }
     }
 
     Extractor.defaults = {
         timeout: 10000,
-        minWidth: 640,
-        minHeight: 480
+        minWidth: 500,
+        minHeight: 300
     }
 
     return new Extractor(options);

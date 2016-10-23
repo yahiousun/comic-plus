@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
             return { ...state, status: LOADED, result: action.payload };
         }
         case RESOURCE_ERROR: {
-            return { ...state, status: ERROR, error: action.payload };
+            return { ...state, status: FAILED, error: action.payload };
         }
         case RESOURCE_TIMEOUT: {
             return { ...state, status: TIMEOUT };

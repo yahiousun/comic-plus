@@ -4,6 +4,7 @@ import { loadImageProgress, loadImageComplete, loadImageError, loadImageTimeout 
 
 function onWindowMessageHandler (store, e) {
     if (e.data && e.data.id === chrome.runtime.id) {
+            console.log(e.data.type)
         switch(e.data.type) {
             case RESOURCE_PROGRESS: {
                 return store.dispatch(loadResourceProgress());

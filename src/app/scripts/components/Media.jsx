@@ -1,13 +1,25 @@
 import React, {Component, PropTypes} from 'react';
 
 import {LOADING, PROGRESS, LOADED, FAILED } from '../constants/status';
+import classes from '../../styles/media.scss';
 
 class Media extends Component {
 
     get defaultStyles() {
         return {
             root: {
-                textAlign: 'center'
+                textAlign: 'center',
+                minHeight: '400px'
+            },
+            placeholder: {
+                winth: '100%',
+                height: '100%',
+                backgroundColor: '#CCCCCC'
+            },
+            error: {
+                winth: '100%',
+                height: '100%',
+                color: '#F00'
             }
         }
     }
@@ -64,28 +76,22 @@ class Media extends Component {
 
     render() {
         const styles = { ...this.defaultStyles };
-        let component;
-        switch(this.state.status) {
-            case LOADING: {
-                component = <div>loading</div>
-                break;
-            }
-            case PROGRESS: {
-                component = <div>loading</div>
-                break;
-            }
-            case LOADED: {
-                component = <img src={this.props.source} />
-                break;
-            }
-            case FAILED: {
-                component = <div>failed</div>
-                break;
-            }
+        let loader = null, error = null, media = null;
+
+        if (this.state.status === LOADED) {
+            media = <img src={this.props.source} className={classes.fadeIn} />
+        }
+        else if (this.state.status === FAILED) {
+            error = <div style={styles.error}>failed</div>
+        }
+        else {
+            loader = <div>loading</div>
         }
         return (
             <div ref="container" style={styles.root}>
-                { component }
+                { loader }
+                { media }
+                { error }
             </div>
         );
     }
