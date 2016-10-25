@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+const STICKY = 'sticky';
+
 class Header extends Component {
 
     get defaultStyles() {
@@ -37,10 +39,19 @@ class Header extends Component {
         super(props);
     }
 
+    getStyles() {
+        let styles = { ...this.defaultStyles };
+        if (this.props.sticky === STICKY) {
+            styles.root.borderBottom = '1px solid #CCCCCC';
+        }
+        return styles;
+    }
+
     render() {
-        const styles = { ...this.defaultStyles };
+        let styles = this.getStyles();
+
         return (
-            <div style={styles.root} ref="root">
+            <div style={styles.root}>
                 <div style={styles.container}>
                     <h1 style={styles.title}>{this.props.title}</h1>
                 </div>

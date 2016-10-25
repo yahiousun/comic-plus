@@ -12,3 +12,28 @@ img {
     vertical-align: baseline;
     max-width: 100%;
 }
+
+.header {
+    visibility: visible;
+}
+
+.header-enter {
+  opacity: 0.01;
+  transform: translateY(-100%);
+}
+
+.header-enter.header-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 250ms ease-out;
+}
+.header-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header-leave.header-leave-active {
+  opacity: 0.01;
+  transform: translateY(-100%);
+  transition: all 250ms ease-out;
+}

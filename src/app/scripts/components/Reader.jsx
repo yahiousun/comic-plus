@@ -5,6 +5,8 @@ import Body from './Body';
 
 import Sticky from './Sticky';
 
+import classes from '../../styles/style.scss';
+
 class Reader extends Component {
     constructor(props) {
         super(props);
@@ -13,7 +15,7 @@ class Reader extends Component {
     render() {
         return (
             <div>
-                <Sticky position="top">
+                <Sticky position="top" autohide={true} transitionName={classes.header}>
                     <Header title={this.props.resource.title} />
                 </Sticky>
                 <Body pages={this.props.resource.pages} images={this.props.images} loadImage={this.props.loadImage} />
