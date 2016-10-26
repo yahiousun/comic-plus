@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Header from './Header';
 import Body from './Body';
+import Footer from './Footer';
 
 import Sticky from './Sticky';
 
@@ -19,6 +20,9 @@ class Reader extends Component {
                     <Header title={this.props.resource.title} />
                 </Sticky>
                 <Body pages={this.props.resource.pages} images={this.props.images} loadImage={this.props.loadImage} />
+                <Sticky position="bottom" autohide={false} transitionName={classes.footer}>
+                    <Footer title={this.props.resource.title} />
+                </Sticky>
             </div>
         );
     }

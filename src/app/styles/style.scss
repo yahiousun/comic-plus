@@ -13,7 +13,8 @@ img {
     max-width: 100%;
 }
 
-.header {
+.header,
+.footer {
     visibility: visible;
 }
 
@@ -35,5 +36,26 @@ img {
 .header-leave.header-leave-active {
   opacity: 0.01;
   transform: translateY(-100%);
+  transition: all 250ms ease-out;
+}
+
+.footer-enter {
+  opacity: 0.01;
+  transform: translateY(100%);
+}
+
+.footer-enter.footer-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 250ms ease-out;
+}
+.footer-leave {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.footer-leave.footer-leave-active {
+  opacity: 0.01;
+  transform: translateY(100%);
   transition: all 250ms ease-out;
 }

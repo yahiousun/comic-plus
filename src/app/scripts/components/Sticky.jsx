@@ -4,12 +4,15 @@ import ReactCSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 const STICKY = 'sticky';
 const HIDDEN = 'hidden';
 const STATIC = 'static';
+const TOP = 'top';
+const BOTTOM = 'bottom';
 
 class Sticky extends Component {
 
     get defaultStyles() {
         return {
             root: {
+                position: 'relative'
             },
             placeholder: {
                 visablity: 'hidden',
@@ -18,7 +21,6 @@ class Sticky extends Component {
             },
             children: {
                 position: 'absolute',
-                top: 0,
                 right: 0,
                 left: 0
             }
@@ -29,76 +31,100 @@ class Sticky extends Component {
         super(props);
         this.state = {
             status: STATIC,
+            height: 0,
             lastScrollTop: document.body.scrollTop
         }
         this.handleScroll = this.onScroll.bind(this);
     }
 
-    offset() {
-            return {
-                top: this.refs.placeholder.getBoundingClientRect().top,
-                left: this.refs.placeholder.getBoundingClientRect().left
-            }
-    }
-
     onScroll(e) {
         let scrollTop = document.body.scrollTop,
-            diff = scrollTop - this.state.lastScrollTop;
+            diff = scrollTop - this.state.lastScrollTop,
+            height = this.state.height;
 
-        if (this.props.position === 'top') {
+        if (this.refs && this.refs.children && this.refs.children.offsetHeight) {
+            height = this.refs.children.offsetHeight;
+        }
+
+        if (this.props.position === TOP) {
             if (!this.props.autohide) {
                 if (scrollTop > this.props.threshold) {
                     this.setState({
                         status: STICKY,
+                        height: height,
                         lastScrollTop: scrollTop
                     })
                 }
                 else {
                     this.setState({
                         status: STATIC,
+                        height: height,
                         lastScrollTop: scrollTop
                     })
                 }
             }
             else {
-                if (scrollTop > this.refs.placeholder.getBoundingClientRect().height + this.props.threshold + this.offset().top) {
+                if (0 > this.refs.placeholder.getBoundingClientRect().height + this.refs.placeholder.getBoundingClientRect().top) {
                     this.setState({
                         status: diff > 0 ? HIDDEN : STICKY,
+                        height: height,
                         lastScrollTop: scrollTop
                     })
-                } else if (scrollTop > 0) {
+                }
+                else if (0 > this.refs.placeholder.getBoundingClientRect().top) {
                     this.setState({
                         status: this.state.status === STICKY ? STICKY : STATIC,
+                        height: height,
                         lastScrollTop: scrollTop
                     })
                 }
                 else {
                     this.setState({
                         status: STATIC,
+                        height: height,
                         lastScrollTop: scrollTop
                     })
                 }
             }
         }
-        else if (this.props.position === 'bottom') {
-            if (scrollTop + window.innerHeight - this.props.threshold < this.refs.placeholder.getBoundingClientRect().top + this.refs.placeholder.getBoundingClientRect().height) {
+        else if (this.props.position === BOTTOM) {
+            if (window.innerHeight < this.refs.placeholder.getBoundingClientRect().top) {
                 this.setState({
-                    status: STICKY,
+                    status: diff > 0 ? HIDDEN : STICKY,
+                    height: height,
                     lastScrollTop: scrollTop
                 })
-            } else {
+            } 
+            else if (window.innerHeight < this.refs.placeholder.getBoundingClientRect().top + this.refs.placeholder.offsetHeight) {
                 this.setState({
-                    sticky: STATIC,
+                    status: this.state.status === STATIC ? STATIC : this.state.status,
+                    height: height,
+                    lastScrollTop: scrollTop
+                })
+            }
+            else {
+                this.setState({
+                    status: STATIC,
+                    height: height,
                     lastScrollTop: scrollTop
                 })
             }
         }
-        
     }
     
     componentDidMount() {
         window.addEventListener('scroll', this.handleScroll, false);
         window.addEventListener('resize', this.handleScroll, false);
+
+        let height = 0;
+        if (this.refs && this.refs.children && this.refs.children.getBoundingClientRect().height) {
+            height = this.refs.children.getBoundingClientRect().height;
+        }
+        this.setState({
+            status: STATIC,
+            height: height,
+            lastScrollTop: document.body.scrollTop
+        });
     }
 
     componentWillUnmount() {
@@ -125,22 +151,30 @@ class Sticky extends Component {
 
     getStyles() {
         let styles = { ...this.defaultStyles };
-        if (this.state.status !== STATIC) {
+        if (this.state.status === STICKY) {
             styles.children.position = 'fixed';
         }
-        if (this.props.position === 'bottom') {
-            delete styles.children.position.top;
-            styles.children.position.bottom = 0;
+        if (this.props.position === BOTTOM) {
+            styles.children.bottom = 0;
+            if (this.state.status === STATIC) {
+                styles.children.top = 0;
+            }
         }
-        if (this.refs && this.refs.children && this.refs.children.getBoundingClientRect().height) {
-            styles.placeholder.height = this.refs.children.getBoundingClientRect().height;
+        else {
+            styles.children.top = 0;
+        }
+        if (this.state.status === STATIC) {
+            styles.root.position = 'relative';
+        }
+        if (this.state.height) {
+            styles.placeholder.height = this.state.height + 'px';
         }
         return styles;
     }
 
     render() {
         let styles = this.getStyles();
-        let container;
+        let wrapper;
 
         let childrenWithProps = React.Children.map(this.props.children,
             (child) => React.cloneElement(child, {
@@ -148,30 +182,34 @@ class Sticky extends Component {
             })
         );
 
-        let children = <div ref="children" style={styles.children}>
+        let container = <div ref="children" style={styles.children}>
                     {childrenWithProps}
                 </div>;
 
         if (this.state.status === HIDDEN && this.props.autohide) {
-            children = null;
+            container = null;
         }
 
-        if (!this.props.autohide || !this.props.transitionName) {
-            container = children;
+        if (this.props.position === BOTTOM && this.state === STATIC) {
+
+        }
+
+        if (!this.props.autohide || !this.props.transitionName || (this.props.position === BOTTOM && this.state.status === STATIC)) {
+            wrapper = container;
         }
         else {
-            container = <ReactCSSTransitionGroup component={this.props.component}
+            wrapper = <ReactCSSTransitionGroup component={this.props.component}
                 transitionName={this.props.transitionName}
                 transitionEnterTimeout={this.props.transitionEnterTimeout} 
                 transitionLeaveTimeout={this.props.transitionLeaveTimeout} >
-                {children}
+                {container}
             </ReactCSSTransitionGroup>
         }
-        
+
         return (
-            <div>
+            <div style={styles.root}>
                 <div ref="placeholder" className="placeholder" style={styles.placeholder}></div>
-                {container}
+                {wrapper}
             </div>
         );
     }
@@ -179,7 +217,6 @@ class Sticky extends Component {
 
 Sticky.propTypes = {
     position: PropTypes.string,
-    threshold: PropTypes.number,
     autohide: PropTypes.bool,
     component: PropTypes.string,
     transitionName: PropTypes.string,
@@ -187,8 +224,7 @@ Sticky.propTypes = {
     transitionLeaveTimeout: PropTypes.number
 }
 Sticky.defaultProps = {
-    position: 'top',
-    threshold: 0,
+    position: TOP,
     autohide: false,
     component: 'div',
     transitionEnterTimeout: 500,

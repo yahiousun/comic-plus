@@ -8,7 +8,7 @@ class Header extends Component {
         return {
             root: {
                 width: '100%',
-                height: '62px',
+                height: '38px',
                 boxSizing: 'border-box',
                 backgroundColor: '#FFFFFF'
             },
@@ -24,11 +24,6 @@ class Header extends Component {
                 justifyContent: 'space-between',
                 alignItems: 'center'
             },
-            title: {
-                fontSize: '2.4rem',
-                fontWeight: 'normal',
-                margin: 0
-            }
         }
     }
 
@@ -39,7 +34,7 @@ class Header extends Component {
     getStyles() {
         let styles = { ...this.defaultStyles };
         if (this.props.sticky === STICKY) {
-            styles.root.borderBottom = '1px solid #CCCCCC';
+            styles.root.borderTop = '1px solid #CCCCCC';
         }
         return styles;
     }
@@ -50,7 +45,7 @@ class Header extends Component {
         return (
             <div style={styles.root}>
                 <div style={styles.container}>
-                    <h1 style={styles.title}>{this.props.title}</h1>
+                    <p>no more content</p>
                 </div>
             </div>
         );
