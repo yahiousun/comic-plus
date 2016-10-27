@@ -23,4 +23,8 @@ export const IMAGE_LOAD = 'IMAGE_LOAD';
 export const IMAGE_PROGRESS = 'IMAGE_PROGRESS';
 export const IMAGE_TIMEOUT = 'IMAGE_TIMEOUT';
 
+export const CHAPTER_SELECT = 'CHAPTER_SELECT';
+
+export const READY = 'READY';
+
 export const PROTOCOL_CHROME_EXTENSION = 'chrome-extension:';

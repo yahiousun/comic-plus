@@ -14,3 +14,5 @@ export const EXTRACT = 'EXTRACT';
 export const PREPARE = 'PREPARE';
 export const DOWNLOAD = 'DOWNLOAD';
 export const INITIALIZE = 'INITIALIZE';
+
+export const CHAPTER_SELECT = 'CHAPTER_SELECT';

@@ -1,10 +1,5 @@
-export const RUNNING = 'running';
-export const STOPPED = 'stopped';
-export const PENDING = 'pending';
+export const READY = 'READY';
 
-export const EXTRACT = 'extract';
-export const PREPARE = 'prepare';
-export const DOWNLOAD = 'download';
 export const TOGGLE = 'toggle';
 
 export const ACTIVE = 'active';

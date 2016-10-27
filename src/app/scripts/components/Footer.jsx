@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 const STICKY = 'sticky';
 
-class Header extends Component {
+class Footer extends Component {
 
     get defaultStyles() {
         return {
@@ -29,6 +29,12 @@ class Header extends Component {
 
     constructor(props) {
         super(props);
+        this.onNext = this.onNext.bind(this);
+        this.onPrev = this.onPrev.bind(this);
+    }
+
+    componentDidMount() {
+        console.log(this)
     }
 
     getStyles() {
@@ -39,21 +45,42 @@ class Header extends Component {
         return styles;
     }
 
+    onNext() {
+        this.props.chapterSelect(this.props.next.url);
+    }
+
+    onPrev() {
+        this.props.chapterSelect(this.props.previous.url)
+    }
+
     render() {
         let styles = this.getStyles();
+
+        let prev = null;
+        let next = null
+
+        if (this.props.previous) {
+            prev = <button type="button" onClick={this.onPrev}>Prev Chapter</button>
+        }
+
+        if (this.props.next) {
+            next = <button type="button" onClick={this.onNext}>Next Chapter</button>
+        }
 
         return (
             <div style={styles.root}>
                 <div style={styles.container}>
-                    <p>no more content</p>
+                    {prev} {next}
                 </div>
             </div>
         );
     }
 }
 
-Header.propTypes = {
-    title: PropTypes.string.isRequired
+Footer.propTypes = {
+    next: PropTypes.object,
+    previous: PropTypes.object,
+    chapterSelect: PropTypes.func.isRequired
 }
 
-export default Header;
+export default Footer;

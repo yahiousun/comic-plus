@@ -2,7 +2,7 @@ import Embedded from './Embedded';
 import Injector from './Injector';
 import Extractor from './Extractor';
 import Downloader from './Downloader';
-import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD, INITIALIZE, PREPARE } from './constants';
+import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD, INITIALIZE, PREPARE, CHAPTER_SELECT, READY } from './constants';
 
 class EmbeddedApp extends Embedded {
     constructor(url, props, styles, active) {
@@ -15,6 +15,13 @@ class EmbeddedApp extends Embedded {
         chrome.storage.local.get('options', options => {
             this.options = { ...options };
         });
+
+        let comicplus = window.sessionStorage.getItem('comicplus');
+
+        if (comicplus) {
+            window.sessionStorage.removeItem('comicplus');
+            chrome.runtime.sendMessage({type: READY}, (response) => {});
+        }
     }
     onActivate() {
         window.addEventListener('message', this.__onWindowMessage__, true);
@@ -56,6 +63,10 @@ class EmbeddedApp extends Embedded {
                 }
                 case PREPARE: {
                     return new Downloader(e.data.payload);
+                }
+                case CHAPTER_SELECT: {
+                    window.sessionStorage.setItem('comicplus', Date.now());
+                    window.location.href = e.data.payload;
                 }
             }
         }

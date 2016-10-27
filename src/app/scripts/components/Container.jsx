@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loadResource } from '../actions/resource';
 import { loadImage } from '../actions/image';
+import { chapterSelect } from '../actions/chapter';
 
 import { LOADING, PROGRESS, LOADED, FAILED } from '../constants/status';
 
@@ -29,7 +30,7 @@ class Container extends Component {
                 children = <Loader />
                 break;
             case LOADED:
-                children = <Reader resource={this.props.result} images={this.props.images} loadImage={this.props.loadImage} />
+                children = <Reader resource={this.props.result} images={this.props.images} loadImage={this.props.loadImage} chapterSelect={this.props.chapterSelect} />
                 break;
             case FAILED:
                 children = <Error />
@@ -51,5 +52,5 @@ export default connect(
         status: state.resource.status,
         images: state.images
     }),
-    { loadResource, loadImage }
+    { loadResource, loadImage, chapterSelect }
 )(Container)
