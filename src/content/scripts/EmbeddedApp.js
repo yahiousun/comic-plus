@@ -15,10 +15,10 @@ class EmbeddedApp extends Embedded {
         chrome.storage.local.get('options', options => {
             this.options = { ...options };
         });
-
-        let comicplus = window.sessionStorage.getItem('comicplus');
-
-        if (comicplus) {
+        this.onReady();
+    }
+    onReady() {
+        if (window.sessionStorage.getItem('comicplus')) {
             window.sessionStorage.removeItem('comicplus');
             chrome.runtime.sendMessage({type: READY}, (response) => {});
         }
@@ -54,9 +54,7 @@ class EmbeddedApp extends Embedded {
         }
     }
     onWindowMessage(e) {
-
         if (e.data && e.data.id && e.data.id === chrome.runtime.id) {
-            console.log(e.data)
             switch(e.data.type) {
                 case EXTRACT: {
                     return new Extractor(this.props.id, this.options.extractor);

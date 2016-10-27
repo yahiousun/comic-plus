@@ -33,10 +33,6 @@ class Footer extends Component {
         this.onPrev = this.onPrev.bind(this);
     }
 
-    componentDidMount() {
-        console.log(this)
-    }
-
     getStyles() {
         let styles = { ...this.defaultStyles };
         if (this.props.sticky === STICKY) {
@@ -60,11 +56,11 @@ class Footer extends Component {
         let next = null
 
         if (this.props.previous) {
-            prev = <button type="button" onClick={this.onPrev}>Prev Chapter</button>
+            prev = <button type="button" onClick={this.onPrev}>{chrome.i18n.getMessage('actionPreviousChapter')}</button>
         }
 
         if (this.props.next) {
-            next = <button type="button" onClick={this.onNext}>Next Chapter</button>
+            next = <button type="button" onClick={this.onNext}>{chrome.i18n.getMessage('actionNextChapter')}</button>
         }
 
         return (

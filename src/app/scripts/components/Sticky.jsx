@@ -66,7 +66,7 @@ class Sticky extends Component {
             else {
                 if (0 > this.refs.placeholder.getBoundingClientRect().height + this.refs.placeholder.getBoundingClientRect().top) {
                     this.setState({
-                        status: diff > 0 ? HIDDEN : STICKY,
+                        status: diff < 0 || !this.props.autohide ? STICKY : HIDDEN,
                         height: height,
                         lastScrollTop: scrollTop
                     })
@@ -90,7 +90,7 @@ class Sticky extends Component {
         else if (this.props.position === BOTTOM) {
             if (window.innerHeight < this.refs.placeholder.getBoundingClientRect().top) {
                 this.setState({
-                    status: diff > 0 ? HIDDEN : STICKY,
+                    status: diff < 0 || !this.props.autohide ? STICKY : HIDDEN,
                     height: height,
                     lastScrollTop: scrollTop
                 })
