@@ -5,10 +5,7 @@ function Universal(options) {
     const LOADED = 'loaded';
     const FAILED = 'failed';
 
-    const RESOURCE_LOAD = 'RESOURCE_LOAD';
-    const RESOURCE_TIMEOUT = 'RESOURCE_TIMEOUT';
-    const RESOURCE_ERROR = 'RESOURCE_ERROR';
-    const RESOURCE_PROGRESS = 'RESOURCE_PROGRESS';
+    const EXTRACT_STATE_CHANGE = 'EXTRACT_STATE_CHANGE';
 
     function Extractor(id, options) {
         let self = this;
@@ -19,7 +16,8 @@ function Universal(options) {
         self.vender = 'Universal';
         self.status = LOADING;
         self.post({
-            type: RESOURCE_PROGRESS
+            type: EXTRACT_STATE_CHANGE,
+            status: PROGRESS
         });
         self.extract();
     }
@@ -72,7 +70,8 @@ function Universal(options) {
         let self = this;
         if (self.status === PROGRESS) {
             self.post({
-                type: RESOURCE_TIMEOUT,
+                type: EXTRACT_STATE_CHANGE,
+                status: TIMEOUT
             })
         }
     }
@@ -81,8 +80,9 @@ function Universal(options) {
         let self = this;
         if (self.status === PROGRESS) {
             self.post({
-                type: RESOURCE_LOAD,
-                payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href })
+                type: EXTRACT_STATE_CHANGE,
+                payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href }),
+                status: LOADED
             })
         }
     }
@@ -91,7 +91,8 @@ function Universal(options) {
         let self = this;
         if (self.status === PROGRESS) {
             self.post({
-                type: RESOURCE_ERROR
+                type: EXTRACT_STATE_CHANGE,
+                status: ERROR
             })
         }
     }

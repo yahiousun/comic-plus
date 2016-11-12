@@ -2,7 +2,7 @@ import Embedded from './Embedded';
 import Injector from './Injector';
 import Extractor from './Extractor';
 import Downloader from './Downloader';
-import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD, INITIALIZE, PREPARE, CHAPTER_SELECT, READY } from './constants';
+import { ACTIVE, INACTIVE, ACTIVATE, DEACTIVATE, TOGGLE, EXTRACT, DOWNLOAD, INITIALIZE, PREPARE, CHAPTER_SELECT, SESSION_REQUEST } from './constants';
 
 class EmbeddedApp extends Embedded {
     constructor(url, props, styles, active) {
@@ -20,7 +20,7 @@ class EmbeddedApp extends Embedded {
     onReady() {
         if (window.sessionStorage.getItem('comicplus')) {
             window.sessionStorage.removeItem('comicplus');
-            chrome.runtime.sendMessage({type: READY}, (response) => {});
+            chrome.runtime.sendMessage({type: SESSION_REQUEST}, (response) => {});
         }
     }
     onActivate() {

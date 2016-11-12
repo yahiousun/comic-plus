@@ -1,9 +1,11 @@
-import { RESOURCE_LOADSTART, RESOURCE_PROGRESS, RESOURCE_LOAD, RESOURCE_ERROR, RESOURCE_TIMEOUT, EXTRACT } from '../constants/actionTypes';
+import { EXTRACT_STATE_CHANGE, EXTRACT } from '../constants/actionTypes'
+import { LOADING } from '../constants/status'
 
 export function loadResource() {
     return (dispatch, getState) => {
         dispatch({
-            type: RESOURCE_LOADSTART
+            type: EXTRACT_STATE_CHANGE,
+            status: LOADING
         });
         window.parent.postMessage({
             id: chrome.runtime.id,
@@ -12,27 +14,11 @@ export function loadResource() {
     };
 }
 
-export function loadResourceProgress() {
+export function extractStateChange(payload, status, error) {
     return {
-        type: RESOURCE_PROGRESS
-    };
-}
-
-export function loadResourceComplete(data) {
-    return {
-        type: RESOURCE_LOAD,
-        payload: data
-    };
-}
-
-export function loadResourceError() {
-    return {
-        type: RESOURCE_ERROR
-    };
-}
-
-export function loadResourceTimeout() {
-    return {
-        type: RESOURCE_TIMEOUT
+        type: EXTRACT_STATE_CHANGE,
+        payload: payload,
+        status: status,
+        error: error
     };
 }

@@ -1,5 +1,5 @@
 import Bridge from './Bridge';
-import { LOADED, PROGRESS, FAILED, LOADING, TIMEOUT, IMAGE_LOAD, IMAGE_ERROR, IMAGE_PROGRESS } from './constants';
+import { LOADED, PROGRESS, FAILED, LOADING, TIMEOUT, DOWNLOAD_STATE_CHANGE } from './constants';
 
 class Downloader {
     constructor(src) {
@@ -13,8 +13,9 @@ class Downloader {
         this.state = PROGRESS;
         this.bridge = new Bridge();
         this.bridge.send({
-            type: IMAGE_PROGRESS,
-            payload: this.src
+            type: DOWNLOAD_STATE_CHANGE,
+            payload: this.src,
+            status: PROGRESS
         });
         this.ref.src = this.src;
         this.timer = setTimeout(this.onTimeout.bind(this), 10000)
@@ -22,24 +23,27 @@ class Downloader {
     onTimeout() {
         this.state = TIMEOUT;
         this.bridge.send({
-            type: IMAGE_TIMEOUT,
-            payload: this.src
+            type: DOWNLOAD_STATE_CHANGE,
+            payload: this.src,
+            status: TIMEOUT
         })
     }
     onLoad() {
         clearTimeout(this.timer);
         this.state = LOADED;
         this.bridge.send({
-            type: IMAGE_LOAD,
-            payload: this.src
+            type: DOWNLOAD_STATE_CHANGE,
+            payload: this.src,
+            status: LOADED
         })
     }
     onError() {
         clearTimeout(this.timer);
         this.state = FAILED;
         this.bridge.send({
-            type: IMAGE_ERROR,
-            payload: this.src
+            type: DOWNLOAD_STATE_CHANGE,
+            payload: this.src,
+            status: FAILED
         })
     }
 }

@@ -18,13 +18,10 @@ export const EXTRACT = 'EXTRACT';
 export const PREPARE = 'PREPARE';
 export const DOWNLOAD = 'DOWNLOAD';
 
-export const IMAGE_ERROR = 'IMAGE_ERROR';
-export const IMAGE_LOAD = 'IMAGE_LOAD';
-export const IMAGE_PROGRESS = 'IMAGE_PROGRESS';
-export const IMAGE_TIMEOUT = 'IMAGE_TIMEOUT';
+export const DOWNLOAD_STATE_CHANGE = 'DOWNLOAD_STATE_CHANGE';
 
 export const CHAPTER_SELECT = 'CHAPTER_SELECT';
 
-export const READY = 'READY';
+export const SESSION_REQUEST = 'SESSION_REQUEST';
 
 export const PROTOCOL_CHROME_EXTENSION = 'chrome-extension:';

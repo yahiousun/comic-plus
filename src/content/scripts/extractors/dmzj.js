@@ -5,10 +5,7 @@ function dmzj(options) {
     const LOADED = 'loaded';
     const FAILED = 'failed';
 
-    const RESOURCE_LOAD = 'RESOURCE_LOAD';
-    const RESOURCE_TIMEOUT = 'RESOURCE_TIMEOUT';
-    const RESOURCE_ERROR = 'RESOURCE_ERROR';
-    const RESOURCE_PROGRESS = 'RESOURCE_PROGRESS';
+    const EXTRACT_STATE_CHANGE = 'EXTRACT_STATE_CHANGE';
 
     function Extractor(id, options) {
         let self = this;
@@ -23,7 +20,8 @@ function dmzj(options) {
         self.imgPrefix = document.location.protocol + '//images.dmzj.com/';
 
         self.post({
-            type: RESOURCE_PROGRESS
+            type: EXTRACT_STATE_CHANGE,
+            status: PROGRESS
         });
         self.extract();
     }
@@ -173,7 +171,8 @@ function dmzj(options) {
         let self = this;
         if (self.status === PROGRESS) {
             self.post({
-                type: RESOURCE_TIMEOUT,
+                type: EXTRACT_STATE_CHANGE,
+                status: TIMEOUT
             })
         }
     }
@@ -182,8 +181,9 @@ function dmzj(options) {
         let self = this;
         if (self.status === PROGRESS) {
             self.post({
-                type: RESOURCE_LOAD,
-                payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href })
+                type: EXTRACT_STATE_CHANGE,
+                payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href }),
+                status: LOADED
             })
         }
     }
@@ -192,7 +192,8 @@ function dmzj(options) {
         let self = this;
         if (self.status === PROGRESS) {
             self.post({
-                type: RESOURCE_ERROR
+                type: EXTRACT_STATE_CHANGE,
+                status: FAILED
             })
         }
     }

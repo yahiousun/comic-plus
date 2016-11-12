@@ -26,17 +26,15 @@ class Media extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            status: null
-        }
         this.handleLazyload = this.onWindowChange.bind(this);
+        this.reloadImage = this.reloadImage.bind(this);
     }
 
     componentDidMount() {
         window.addEventListener('scroll', this.handleLazyload);
         window.addEventListener('resize', this.handleLazyload);
         
-        if(this.props.preload && (!this.props.status || this.props.status !== LOADING || this.rpops.status !== PROGRESS)) {
+        if(this.props.preload && (!this.props.status || this.props.status !== LOADING || this.props.status !== PROGRESS)) {
             this.props.loadImage(this.props.source);
         }
         else {
@@ -45,19 +43,14 @@ class Media extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.status && this.state.status !== nextProps.status) {
-            this.setState({
-                status: nextProps.status
-            });
-            if (nextProps.status === LOADED) {
-                window.removeEventListener('scroll', this.handleLazyload);
-                window.removeEventListener('resize', this.handleLazyload);
-            }
+        if (nextProps.status === LOADED) {
+            window.removeEventListener('scroll', this.handleLazyload);
+            window.removeEventListener('resize', this.handleLazyload);
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.status && this.state.status !== nextProps.status) {
+        if (nextProps.status && this.props.status) {
             return true;
         }
         return false;
@@ -69,7 +62,7 @@ class Media extends Component {
     }
 
     onWindowChange() {
-        if(!this.state.status) {
+        if(!this.props.status) {
             if (document.body.scrollTop + window.innerHeight + this.props.threshold > this.refs.container.offsetTop) {
                 this.props.loadImage(this.props.source);
             }
@@ -77,7 +70,7 @@ class Media extends Component {
     }
 
     reloadImage() {
-        if(!this.state.status || this.state.status === FAILED) {
+        if(!this.props.status || this.props.status === FAILED) {
             this.props.loadImage(this.props.source);
         }
     }
@@ -86,13 +79,13 @@ class Media extends Component {
         const styles = { ...this.defaultStyles };
         let loader = null, error = null, media = null;
 
-        if (this.state.status === LOADED) {
+        if (this.props.status === LOADED) {
             media = <img src={this.props.source} className={classes.fadeIn} />
         }
-        else if (this.state.status === FAILED) {
-            error = <div style={styles.error} onClick={this.props.reloadImage}>failed</div>
+        else if (this.props.status === FAILED) {
+            error = <div style={styles.error} onClick={this.reloadImage}>failed</div>
         }
-        else if (this.state.status === TIMEOUT) {
+        else if (this.props.status === TIMEOUT) {
             loader = <div>timeout</div>
         }
         else {

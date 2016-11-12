@@ -1,4 +1,4 @@
-import { TOGGLE, READY } from './constants';
+import { TOGGLE, SESSION_REQUEST } from './constants';
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('BACKGROUND RECIVE', request, sender)
@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     //         tabId: typeof sender.id === 'string' ? sender.tab.id : sender.id
     //     })
     // }
-    if (request.type === READY) {
+    if (request.type === SESSION_REQUEST) {
         let id = (sender.tab && sender.tab.id) ? sender.tab.id : id;
         chrome.tabs.sendMessage(id, {type: TOGGLE, payload: id}, (response) => {
             console.log(response)

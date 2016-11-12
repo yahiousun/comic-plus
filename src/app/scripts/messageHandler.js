@@ -1,34 +1,15 @@
-import { RESOURCE_PROGRESS, RESOURCE_LOAD, RESOURCE_ERROR, RESOURCE_TIMEOUT, IMAGE_PROGRESS, IMAGE_LOAD, IMAGE_ERROR, IMAGE_TIMEOUT } from './constants/actionTypes';
-import { loadResourceProgress, loadResourceComplete, loadResourceError, loadResourceTimeout } from './actions/resource';
-import { loadImageProgress, loadImageComplete, loadImageError, loadImageTimeout } from './actions/image';
+import { EXTRACT_STATE_CHANGE, DOWNLOAD_STATE_CHANGE } from './constants/actionTypes';
+import { extractStateChange } from './actions/resource';
+import { downloadImageStateChange } from './actions/image';
 
 function onWindowMessageHandler (store, e) {
     if (e.data && e.data.id === chrome.runtime.id) {
-            console.log(e.data.type)
         switch(e.data.type) {
-            case RESOURCE_PROGRESS: {
-                return store.dispatch(loadResourceProgress());
+            case EXTRACT_STATE_CHANGE: {
+                return store.dispatch(extractStateChange(e.data.payload, e.data.status, e.data.error));
             }
-            case RESOURCE_LOAD: {
-                return store.dispatch(loadResourceComplete(e.data.payload));
-            }
-            case RESOURCE_ERROR: {
-                return store.dispatch(loadResourceError());
-            }
-            case RESOURCE_TIMEOUT: {
-                return store.dispatch(loadResourceTimeout());
-            }
-            case IMAGE_PROGRESS: {
-                return store.dispatch(loadImageProgress(e.data.payload));
-            }
-            case IMAGE_LOAD: {
-                return store.dispatch(loadImageComplete(e.data.payload));
-            }
-            case IMAGE_ERROR: {
-                return store.dispatch(loadImageError(e.data.payload));
-            }
-            case IMAGE_TIMEOUT: {
-                return store.dispatch(loadImageTimeout(e.data.payload));
+            case DOWNLOAD_STATE_CHANGE: {
+                return store.dispatch(downloadImageStateChange(e.data.payload, e.data.status));
             }
         }
     }

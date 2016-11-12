@@ -23,7 +23,7 @@ class Page extends Component {
         const styles = { ...this.defaultStyles  }
         return (
             <figure style={styles.root}>
-                <Media source={this.props.source} status={this.props.images.get(this.props.source)} preload={this.props.preload} loadImage={this.props.loadImage} />
+                <Media source={this.props.source} status={this.props.images[this.props.source]} preload={this.props.preload} loadImage={this.props.loadImage} />
                 <PageFooter number={this.props.number} total={this.props.total} />
             </figure>
         );

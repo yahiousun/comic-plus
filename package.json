@@ -8,6 +8,7 @@
   },
   "author": "yahiousun",
   "dependencies": {
+    "immutable": "^3.8.1",
     "normalize.css": "^4.2.0",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",

@@ -1,10 +1,12 @@
-import { IMAGE_LOADSTART, IMAGE_PROGRESS, IMAGE_LOAD, IMAGE_ERROR, IMAGE_TIMEOUT, PREPARE } from '../constants/actionTypes';
+import { DOWNLOAD_STATE_CHANGE, PREPARE } from '../constants/actionTypes'
+import { LOADING } from '../constants/status'
 
-export function loadImage(url) {
+export function downloadImage(url) {
     return (dispatch, getState) => {
         dispatch({
-            type: IMAGE_LOADSTART,
-            payload: url
+            type: DOWNLOAD_STATE_CHANGE,
+            payload: url,
+            status: LOADING
         });
         window.parent.postMessage({
             id: chrome.runtime.id,
@@ -14,30 +16,10 @@ export function loadImage(url) {
     }
 }
 
-export function loadImageProgress(url) {
+export function downloadImageStateChange(url, status) {
     return {
-        type: IMAGE_PROGRESS,
-        payload: url
-    };
-}
-
-export function loadImageComplete(url) {
-    return {
-        type: IMAGE_LOAD,
-        payload: url
-    };
-}
-
-export function loadImageError(url) {
-    return {
-        type: IMAGE_ERROR,
-        payload: url
-    };
-}
-
-export function loadImageTimeout(url) {
-    return {
-        type: IMAGE_TIMEOUT,
-        payload: url
+        type: DOWNLOAD_STATE_CHANGE,
+        payload: url,
+        status: status
     };
 }
