@@ -2,7 +2,7 @@ import { PROTOCOL_CHROME_EXTENSION } from './constants';
 
 class Bridge {
   get origin() {
-    return `${PROTOCOL_CHROME_EXTENSION}://${this.id}`;
+    return `${PROTOCOL_CHROME_EXTENSION}//${this.id}`;
   }
   constructor() {
     this.id = chrome.runtime.id;

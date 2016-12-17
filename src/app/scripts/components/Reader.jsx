@@ -9,6 +9,9 @@ import Sticky from './Sticky';
 import classes from '../../styles/style.scss';
 
 class Reader extends Component {
+  componentDidMount() {
+    document.title = this.props.resource.title;
+  }
   render() {
     let footer = null;
     if (this.props.resource.next || this.props.resource.previous) {

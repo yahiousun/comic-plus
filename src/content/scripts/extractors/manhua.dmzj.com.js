@@ -1,5 +1,5 @@
-function dmzj(id, options) {
-  const VENDER = 'dmzj';
+function ManhuaDmzjCom(id, options) {
+  const VENDER = 'manhua.dmzj.com';
   const LOADING = 'loading';
   const PROGRESS = 'progress';
   const LOADED = 'loaded';
@@ -203,4 +203,4 @@ function dmzj(id, options) {
   return new Extractor(id, options || {});
 }
 
-export default dmzj;
+export default ManhuaDmzjCom;

@@ -1,6 +1,6 @@
 const SITES = {
-  dmzj: /manhua.dmzj.com\/[\w]+\/[\d]+.shtml/
-  // lofter: /[\w]+.lofter.com\/post\/[\w]+/
+  'manhuadmzjcom': /manhua.dmzj.com\/[\w]+\/[\d]+.shtml/,
+  'www57mhcom': /www.57mh.com\/\d+\/\d+.html/,
 }
 
 export default SITES;

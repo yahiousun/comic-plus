@@ -7,7 +7,6 @@ import { chapterSelect } from '../actions/chapter';
 import { LOADING, PROGRESS, LOADED, FAILED } from '../constants/state';
 
 import Loader from './Loader';
-import Error from './Error';
 import Reader from './Reader';
 
 class Container extends Component {
@@ -33,7 +32,7 @@ class Container extends Component {
         children = <Reader resource={this.props.result} images={this.props.images} loadImage={this.props.downloadImage} chapterSelect={this.props.chapterSelect} />
         break;
       case FAILED:
-        children = <Error />
+        children = <Loader text="Load resource failed" />
         break;
     }
     

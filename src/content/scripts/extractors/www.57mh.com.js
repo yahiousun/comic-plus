@@ -1,5 +1,5 @@
-function Universal(id, options) {
-  const VENDER = 'Universal';
+function Www57mhCom(id, options) {
+  const VENDER = 'www.57mh.com';
   const LOADING = 'loading';
   const PROGRESS = 'progress';
   const LOADED = 'loaded';
@@ -7,20 +7,20 @@ function Universal(id, options) {
   const EXTRACTOR_STATE_CHANGE = 'EXTRACTOR_STATE_CHANGE';
 
   function Extractor(id, options) {
+    const BASE_URL = `${window.location.protocol}//${window.location.host}`;
+
     this.id = id;
     this.options = Object.assign({}, Extractor.defaults, options);
     this.origin = `chrome-extension://${this.id}`;
     this.ref = document.getElementById(this.id);
     this.vender = VENDER;
     this.state = LOADING;
+
     this.post({
       type: EXTRACTOR_STATE_CHANGE,
       state: PROGRESS,
     });
-    this.data = {
-      title: document.title,
-      pages: [],
-    };
+
     this.state = PROGRESS;
 
     this.onTimeout = this.onTimeout.bind(this);
@@ -31,24 +31,46 @@ function Universal(id, options) {
       this.timer = null;
     }
 
-    for (let image of document.images) {
-      if (this.options.minImageWidth && image.width < this.options.minImageWidth) {
-        continue;
+    function getHost() {
+      let host;
+      if (window.pageConfig.host.auto.length) {
+        host = window.pageConfig.host.auto[0];
+      } else {
+        for (let hosts of window.pageConfig.host) {
+          if (hosts.length) {
+            host = hosts[0];
+            break;
+          }
+        }
       }
-      if (this.options.minImageWidth && image.height < this.options.minImageHeight) {
-        continue;
-      }
-      if (image.src) {
-        this.data.pages.push(image.src);
-      } else if (image.dataset.original) {
-        this.data.pages.push(image.dataset.original);
-      }
+      return `${location.protocol}//${host}/`;
     }
 
-    if (this.data.pages.length) {
+    if (window.pageConfig && window.cInfo) {
+      this.data = {
+        title: `${window.cInfo.btitle} ${window.cInfo.ctitle}`,
+        pages: window.cInfo.fs.slice().map(item => {
+          return `${getHost()}${item}`;
+        }),
+        url: window.location.href,
+      }
+      if (window.cInfo.ncid) {
+        Object.assign(this.data, {
+          next: {
+            url: `${BASE_URL}${window.cInfo.ncid}.html`,
+          },
+        });
+      }
+      if (window.cInfo.pcid) {
+        Object.assign(this.data, {
+          previous: {
+            url: `${BASE_URL}${window.cInfo.pcid}.html`,
+          },
+        });
+      }
       this.onLoad(this.data);
     } else {
-      this.onError();
+      this.onError('No data found');
     }
   }
 
@@ -60,11 +82,10 @@ function Universal(id, options) {
 
   Extractor.prototype.onTimeout = function() {
     if (this.state === PROGRESS) {
-      this.state = TIMEOUT;
       this.post({
         type: EXTRACTOR_STATE_CHANGE,
         state: TIMEOUT,
-      });
+      })
     }
   }
 
@@ -73,12 +94,11 @@ function Universal(id, options) {
       clearTimeout(this.timer);
     }
     if (this.state === PROGRESS || this.state === TIMEOUT) {
-      this.state = LOADED;
       this.post({
         type: EXTRACTOR_STATE_CHANGE,
-        payload: Object.assign({}, ret, { vender: this.vender, url: document.location.href }),
+        payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href }),
         state: LOADED,
-      });
+      })
     }
   }
 
@@ -87,18 +107,16 @@ function Universal(id, options) {
       clearTimeout(this.timer);
     }
     if (this.state === PROGRESS) {
-      this.state = FAILED;
       this.post({
         type: EXTRACTOR_STATE_CHANGE,
         state: FAILED,
+        error: err,
       });
     }
   }
 
   Extractor.defaults = {
     timeout: 10000,
-    minImageWidth: 500,
-    minImageHeight: 300
   }
 
   this.vender = VENDER;
@@ -106,4 +124,4 @@ function Universal(id, options) {
   return new Extractor(id, options || {});
 }
 
-export default Universal;
+export default Www57mhCom;

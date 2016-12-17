@@ -24,4 +24,4 @@ export const CHAPTER_SELECT = 'CHAPTER_SELECT';
 
 export const SESSION_REQUEST = 'SESSION_REQUEST';
 
-export const PROTOCOL_CHROME_EXTENSION = 'chrome-extension';
+export const PROTOCOL_CHROME_EXTENSION = 'chrome-extension:';
