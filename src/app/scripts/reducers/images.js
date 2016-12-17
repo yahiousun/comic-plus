@@ -7,7 +7,7 @@ const initialState = new Immutable.Map();
 export default (state = initialState, action) => {
     switch(action.type) {
         case DOWNLOAD_STATE_CHANGE: {
-            return state.set(action.payload, action.status);
+            return state.set(action.payload, action.state);
         }
         default: {
             return state;

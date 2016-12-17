@@ -1,29 +1,29 @@
 import Immutable from 'immutable';
-import { EXTRACT_STATE_CHANGE } from '../constants/actionTypes';
-import { LOADING, PROGRESS, LOADED, FAILED, TIMEOUT } from '../constants/status';
+import { EXTRACTOR_STATE_CHANGE } from '../constants/actionTypes';
+import { LOADING, PROGRESS, LOADED, FAILED, TIMEOUT } from '../constants/state';
 
 const initialState = Immutable.fromJS({
-    status: LOADING,
+    state: LOADING,
     result: null,
     error: ''
 });
 export default (state = initialState, action) => {
     switch(action.type) {
-        case EXTRACT_STATE_CHANGE: {
-            switch (action.status) {
+        case EXTRACTOR_STATE_CHANGE: {
+            switch (action.state) {
                 case LOADED: {
                     return state
-                                .set('status', action.status)
+                                .set('state', action.state)
                                 .set('result', action.payload)
                                 .set('error', '')
                 }
                 case FAILED: {
                     return state
-                                .set('status', action.status)
+                                .set('state', action.state)
                                 .set('error', action.error)
                 }
                 default: {
-                    return state.set('status', action.status);
+                    return state.set('state', action.state);
                 }
             }
         }

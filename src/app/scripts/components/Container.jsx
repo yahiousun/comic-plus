@@ -4,7 +4,7 @@ import { loadResource } from '../actions/resource';
 import { downloadImage } from '../actions/image';
 import { chapterSelect } from '../actions/chapter';
 
-import { LOADING, PROGRESS, LOADED, FAILED } from '../constants/status';
+import { LOADING, PROGRESS, LOADED, FAILED } from '../constants/state';
 
 import Loader from './Loader';
 import Error from './Error';
@@ -22,7 +22,7 @@ class Container extends Component {
     render() {
         let children;
 
-        switch (this.props.status) {
+        switch (this.props.state) {
             case LOADING:
                 children = <Loader />
                 break;
@@ -49,7 +49,7 @@ export default connect(
     state => ({
         result: state.resource.get('result'),
         error: state.resource.get('error'),
-        status: state.resource.get('status'),
+        state: state.resource.get('state'),
         images: state.images.toJS()
     }),
     { loadResource, downloadImage, chapterSelect }

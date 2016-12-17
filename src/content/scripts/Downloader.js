@@ -15,7 +15,7 @@ class Downloader {
         this.bridge.send({
             type: DOWNLOAD_STATE_CHANGE,
             payload: this.src,
-            status: PROGRESS
+            state: PROGRESS
         });
         this.ref.src = this.src;
         this.timer = setTimeout(this.onTimeout.bind(this), 10000)
@@ -25,7 +25,7 @@ class Downloader {
         this.bridge.send({
             type: DOWNLOAD_STATE_CHANGE,
             payload: this.src,
-            status: TIMEOUT
+            state: TIMEOUT
         })
     }
     onLoad() {
@@ -34,7 +34,7 @@ class Downloader {
         this.bridge.send({
             type: DOWNLOAD_STATE_CHANGE,
             payload: this.src,
-            status: LOADED
+            state: LOADED
         })
     }
     onError() {
@@ -43,7 +43,7 @@ class Downloader {
         this.bridge.send({
             type: DOWNLOAD_STATE_CHANGE,
             payload: this.src,
-            status: FAILED
+            state: FAILED
         })
     }
 }

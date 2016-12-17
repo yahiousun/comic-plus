@@ -1,111 +1,109 @@
-function Universal(options) {
+function Universal(id, options) {
+  const VENDER = 'Universal';
+  const LOADING = 'loading';
+  const PROGRESS = 'progress';
+  const LOADED = 'loaded';
+  const FAILED = 'failed';
+  const EXTRACTOR_STATE_CHANGE = 'EXTRACTOR_STATE_CHANGE';
 
-    const LOADING = 'loading';
-    const PROGRESS = 'progress';
-    const LOADED = 'loaded';
-    const FAILED = 'failed';
+  function Extractor(id, options) {
+    this.id = id;
+    this.options = Object.assign({}, Extractor.defaults, options);
+    this.origin = `chrome-extension://${this.id}`;
+    this.ref = document.getElementById(this.id);
+    this.vender = VENDER;
+    this.state = LOADING;
+    this.post({
+      type: EXTRACTOR_STATE_CHANGE,
+      state: PROGRESS,
+    });
+    this.images = [];
+    this.state = PROGRESS;
 
-    const EXTRACT_STATE_CHANGE = 'EXTRACT_STATE_CHANGE';
+    this.onTimeout = this.onTimeout.bind(this);
 
-    function Extractor(id, options) {
-        let self = this;
-        self.id = id;
-        self.options = Object.assign({}, Extractor.defaults, options);
-        self.origin = 'chrome-extension://' + self.id;
-        self.ref = document.getElementById(self.id);
-        self.vender = 'Universal';
-        self.status = LOADING;
-        self.post({
-            type: EXTRACT_STATE_CHANGE,
-            status: PROGRESS
-        });
-        self.extract();
+    if (this.options.timeout > 0) {
+      this.timer = setTimeout(this.onTimeout, this.options.timeout);
+    } else {
+      this.timer = null;
     }
 
-    Extractor.prototype.extract = function(msg) {
-        let self = this;
-        let pages = [];
-        if (self.status !== LOADING) {
-            return;
-        }
-        self.status = PROGRESS;
-
-        for (let img of document.images) {
-            if (!img.src) {
-                continue;
-            }
-            if (self.options.minWidth && img.width < self.options.minWidth) {
-                continue;
-            }
-            if (self.options.minHeight && img.height < self.options.minHeight) {
-                continue;
-            }
-            pages.push(img.src);
-        }
-
-        if (pages.length) {
-            self.onLoad({
-                title: document.title,
-                pages: pages.slice()
-            })
-        }
-        else {
-            self.onError()
-        }
+    for (let image of document.images) {
+      if (this.options.minWidth && image.width < this.options.minImageWidth) {
+        continue;
+      }
+      if (this.options.minHeight && image.height < this.options.minImageHeight) {
+        continue;
+      }
+      if (image.src) {
+        this.images.push(image.src);
+      } else if (image.dataset.original) {
+        this.images.push(image.dataset.original);
+      }
     }
 
-    Extractor.prototype.post = function(msg) {
-        let self = this;
-        if (self.ref && self.ref.contentWindow) {
-            self.ref.contentWindow.postMessage(Object.assign({}, msg, {id: self.id}), self.origin);
-        }
+    if (this.images.length) {
+      this.onLoad({
+        title: document.title,
+        pages: this.images.slice(),
+      });
+    } else {
+      this.onError();
     }
+  }
 
-    Extractor.prototype.bindTimeout = function() {
-        let self = this;
-        setTimeout(self.onTimeout.bind(self), self.timeout);
+  Extractor.prototype.post = function(message) {
+    if (this.ref && this.ref.contentWindow) {
+      this.ref.contentWindow.postMessage(Object.assign({}, message, { id: this.id }), this.origin);
     }
+  }
 
-    Extractor.prototype.onTimeout = function() {
-        let self = this;
-        if (self.status === PROGRESS) {
-            self.post({
-                type: EXTRACT_STATE_CHANGE,
-                status: TIMEOUT
-            })
-        }
+  Extractor.prototype.onTimeout = function() {
+    if (this.state === PROGRESS) {
+      this.state = TIMEOUT;
+      this.post({
+        type: EXTRACTOR_STATE_CHANGE,
+        state: TIMEOUT,
+      });
     }
+  }
 
-    Extractor.prototype.onLoad = function(ret) {
-        let self = this;
-        if (self.status === PROGRESS) {
-            self.post({
-                type: EXTRACT_STATE_CHANGE,
-                payload: Object.assign({}, ret, { vender: self.vender, url: document.location.href }),
-                status: LOADED
-            })
-        }
+  Extractor.prototype.onLoad = function(ret) {
+    if (this.timer) {
+      clearTimeout(this.timer);
     }
-
-    Extractor.prototype.onError = function(err) {
-        let self = this;
-        if (self.status === PROGRESS) {
-            self.post({
-                type: EXTRACT_STATE_CHANGE,
-                status: ERROR
-            })
-        }
+    if (this.state === PROGRESS || this.state === TIMEOUT) {
+      this.state = LOADED;
+      this.post({
+        type: EXTRACTOR_STATE_CHANGE,
+        payload: Object.assign({}, ret, { vender: this.vender, url: document.location.href }),
+        state: LOADED,
+      });
     }
+  }
 
-    Extractor.defaults = {
-        timeout: 10000,
-        minWidth: 500,
-        minHeight: 300
+  Extractor.prototype.onError = function(err) {
+    if (this.timer) {
+      clearTimeout(this.timer);
     }
+    if (this.state === PROGRESS) {
+      this.state = FAILED;
+      this.post({
+        type: EXTRACTOR_STATE_CHANGE,
+        state: FAILED,
+      });
+    }
+  }
 
-    return new Extractor(options);
+  Extractor.defaults = {
+    timeout: 10000,
+    minImageWidth: 500,
+    minImageHeight: 300
+  }
+
+  this.vender = VENDER;
+
+  return new Extractor(id, options || {});
 }
-
-Universal.vender = 'Universal';
 
 export default Universal;

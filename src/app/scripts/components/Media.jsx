@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import {LOADING, PROGRESS, LOADED, FAILED, TIMEOUT } from '../constants/status';
+import {LOADING, PROGRESS, LOADED, FAILED, TIMEOUT } from '../constants/state';
 import classes from '../../styles/media.scss';
 
 class Media extends Component {
@@ -34,7 +34,7 @@ class Media extends Component {
         window.addEventListener('scroll', this.handleLazyload);
         window.addEventListener('resize', this.handleLazyload);
         
-        if(this.props.preload && (!this.props.status || this.props.status !== LOADING || this.props.status !== PROGRESS)) {
+        if(this.props.preload && (!this.props.state || this.props.state !== LOADING || this.props.state !== PROGRESS)) {
             this.props.loadImage(this.props.source);
         }
         else {
@@ -43,14 +43,14 @@ class Media extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.status === LOADED) {
+        if (nextProps.state === LOADED) {
             window.removeEventListener('scroll', this.handleLazyload);
             window.removeEventListener('resize', this.handleLazyload);
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.status && this.props.status) {
+        if (nextProps.state && this.props.state) {
             return true;
         }
         return false;
@@ -62,7 +62,7 @@ class Media extends Component {
     }
 
     onWindowChange() {
-        if(!this.props.status) {
+        if(!this.props.state) {
             if (document.body.scrollTop + window.innerHeight + this.props.threshold > this.refs.container.offsetTop) {
                 this.props.loadImage(this.props.source);
             }
@@ -70,7 +70,7 @@ class Media extends Component {
     }
 
     reloadImage() {
-        if(!this.props.status || this.props.status === FAILED) {
+        if(!this.props.state || this.props.state === FAILED) {
             this.props.loadImage(this.props.source);
         }
     }
@@ -79,13 +79,13 @@ class Media extends Component {
         const styles = { ...this.defaultStyles };
         let loader = null, error = null, media = null;
 
-        if (this.props.status === LOADED) {
+        if (this.props.state === LOADED) {
             media = <img src={this.props.source} className={classes.fadeIn} />
         }
-        else if (this.props.status === FAILED) {
+        else if (this.props.state === FAILED) {
             error = <div style={styles.error} onClick={this.reloadImage}>failed</div>
         }
-        else if (this.props.status === TIMEOUT) {
+        else if (this.props.state === TIMEOUT) {
             loader = <div>timeout</div>
         }
         else {
@@ -103,7 +103,7 @@ class Media extends Component {
 
 Media.propTypes = {
     source: PropTypes.string.isRequired,
-    status: PropTypes.string,
+    state: PropTypes.string,
     preload: PropTypes.bool,
     threshold: PropTypes.number,
     loadImage: PropTypes.func.isRequired

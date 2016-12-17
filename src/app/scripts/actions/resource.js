@@ -1,24 +1,24 @@
-import { EXTRACT_STATE_CHANGE, EXTRACT } from '../constants/actionTypes'
-import { LOADING } from '../constants/status'
+import { EXTRACTOR_STATE_CHANGE, EXTRACT } from '../constants/actionTypes';
+import { LOADING } from '../constants/state';
 
 export function loadResource() {
-    return (dispatch, getState) => {
-        dispatch({
-            type: EXTRACT_STATE_CHANGE,
-            status: LOADING
-        });
-        window.parent.postMessage({
-            id: chrome.runtime.id,
-            type: EXTRACT
-        }, '*');
-    };
+  return (dispatch, getState) => {
+    dispatch({
+      type: EXTRACTOR_STATE_CHANGE,
+      state: LOADING,
+    });
+    window.parent.postMessage({
+      id: chrome.runtime.id,
+      type: EXTRACT,
+    }, '*');
+  };
 }
 
-export function extractStateChange(payload, status, error) {
-    return {
-        type: EXTRACT_STATE_CHANGE,
-        payload: payload,
-        status: status,
-        error: error
-    };
+export function extractorStateChange(payload, state, error) {
+  return {
+    type: EXTRACTOR_STATE_CHANGE,
+    payload: payload,
+    state: state,
+    error: error,
+  };
 }

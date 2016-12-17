@@ -1,4 +1,4 @@
-export const READY = 'SESSION_REQUEST';
+export const SESSION_REQUEST = 'SESSION_REQUEST';
 
 export const TOGGLE = 'toggle';
 
