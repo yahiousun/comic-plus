@@ -11,46 +11,46 @@ import Error from './Error';
 import Reader from './Reader';
 
 class Container extends Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
-        this.props.loadResource();
-    }
+  componentDidMount() {
+    this.props.loadResource();
+  }
 
-    render() {
-        let children;
+  render() {
+    let children;
 
-        switch (this.props.state) {
-            case LOADING:
-                children = <Loader />
-                break;
-            case PROGRESS:
-                children = <Loader />
-                break;
-            case LOADED:
-                children = <Reader resource={this.props.result} images={this.props.images} loadImage={this.props.downloadImage} chapterSelect={this.props.chapterSelect} />
-                break;
-            case FAILED:
-                children = <Error />
-                break;
-        }
-        
-        return (
-            <div>
-                { children }
-            </div>
-        );
+    switch (this.props.state) {
+      case LOADING:
+        children = <Loader />
+        break;
+      case PROGRESS:
+        children = <Loader />
+        break;
+      case LOADED:
+        children = <Reader resource={this.props.result} images={this.props.images} loadImage={this.props.downloadImage} chapterSelect={this.props.chapterSelect} />
+        break;
+      case FAILED:
+        children = <Error />
+        break;
     }
+    
+    return (
+      <div>
+        { children }
+      </div>
+    );
+  }
 }
 
 export default connect(
-    state => ({
-        result: state.resource.get('result'),
-        error: state.resource.get('error'),
-        state: state.resource.get('state'),
-        images: state.images.toJS()
-    }),
-    { loadResource, downloadImage, chapterSelect }
-)(Container)
+  state => ({
+    result: state.resource.get('result'),
+    error: state.resource.get('error'),
+    state: state.resource.get('state'),
+    images: state.images.toJS()
+  }),
+  { loadResource, downloadImage, chapterSelect }
+)(Container);
