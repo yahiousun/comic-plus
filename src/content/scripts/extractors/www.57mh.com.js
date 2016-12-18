@@ -54,14 +54,14 @@ function Www57mhCom(id, options) {
         }),
         url: window.location.href,
       }
-      if (window.cInfo.ncid) {
+      if (window.cInfo.ncid && window.cInfo.ncid !== '-1') {
         Object.assign(this.data, {
           next: {
             url: `${BASE_URL}${window.cInfo.ncid}.html`,
           },
         });
       }
-      if (window.cInfo.pcid) {
+      if (window.cInfo.pcid && window.cInfo.pcid !== '-1') {
         Object.assign(this.data, {
           previous: {
             url: `${BASE_URL}${window.cInfo.pcid}.html`,
