@@ -32,23 +32,33 @@ function Universal(id, options) {
     }
 
     for (let image of document.images) {
-      if (this.options.minImageWidth && image.width < this.options.minImageWidth) {
+      if (this.options.minImageWidth && image.width < this.options.minImageWidth && (!image.dataset.original || !image.dataset.src)) {
         continue;
       }
-      if (this.options.minImageWidth && image.height < this.options.minImageHeight) {
+      if (this.options.minImageWidth && image.height < this.options.minImageHeight && (!image.dataset.original || !image.dataset.src)) {
         continue;
       }
-      if (image.src) {
-        this.data.pages.push(image.src);
-      } else if (image.dataset.original) {
-        this.data.pages.push(image.dataset.original);
+      let imageSrc = '';
+      if (image.dataset.original) {
+        imageSrc = image.dataset.original;
+      } else if (image.dataset.src) {
+        imageSrc = image.dataset.src;
+      } else if (image.src) {
+        imageSrc = image.src;
+      }
+      if (imageSrc) {
+        if (/^(http:|https:)/.test(imageSrc)) {
+          this.data.pages.push(imageSrc);
+        } else {
+          this.data.pages.push(`${window.location.protocol}${imageSrc}`);
+        }
       }
     }
 
     if (this.data.pages.length) {
       this.onLoad(this.data);
     } else {
-      this.onError();
+      this.onError('Data Not Found');
     }
   }
 
@@ -91,6 +101,7 @@ function Universal(id, options) {
       this.post({
         type: EXTRACTOR_STATE_CHANGE,
         state: FAILED,
+        error: err,
       });
     }
   }

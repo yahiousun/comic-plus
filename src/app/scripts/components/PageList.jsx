@@ -3,9 +3,6 @@ import React, {Component, PropTypes} from 'react';
 import Page from './Page';
 
 class PageList extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     let pages = 'no images';
 
